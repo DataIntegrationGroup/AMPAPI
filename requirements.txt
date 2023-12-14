@@ -1,0 +1,6 @@
+fastapi>=0.105
+uvicorn
+sqlalchemy>=2.0
+pymssql
+requests
+fief-client[fastapi]
