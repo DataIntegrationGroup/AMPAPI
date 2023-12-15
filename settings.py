@@ -41,7 +41,7 @@ class Settings:
     Z - patch version. backward compatible bug fixes. cosmetic changes
     """
 
-    VERSION = '0.3.1'
+    VERSION = '0.3.2'
     ALLOWED_HOSTS: list = ["*"]
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # in mins
@@ -84,8 +84,12 @@ class Settings:
 
         self.TAGS = [{'name': 'public/locations', 'description': 'Publicly available locations'},
                      {'name': 'public/waterlevels', 'description': 'Publicly available water levels'},
+
                      {'name': 'locations', 'description': 'Locations only accessible to NMBGMR Staff; '
                                                           '<b>authentication required</b>'},
+                     {'name': 'waterlevels', 'description': 'Water levels only accessible to NMBGMR Staff; '
+                                                            '<b>authentication required</b>'},
+
                      {'name': 'NGWMN', 'description': 'National Ground Water Monitoring Network. These endpoints are '
                                                       'used by the NGWMN to access data from the NMBGMR'},
                      ]

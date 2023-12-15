@@ -23,6 +23,9 @@ from schemas import location
 
 router = APIRouter(prefix="/public/locations", tags=["public/locations"])
 
+@router.get("/heloo")
+def get_hello():
+    return 'hello'
 
 @router.get("",
             description='Get all publicly available locations',
