@@ -20,7 +20,7 @@ from settings import settings
 
 
 app = FastAPI(title='New Mexico Bureau of Geology and Mineral Resources Aquifer Mapping Program API',
-              version='0.3',
+              version=settings.VERSION,
               docs_url='/',
               redoc_url='/redoc',
               openapi_url='/openapi.json',
@@ -32,6 +32,7 @@ app = FastAPI(title='New Mexico Bureau of Geology and Mineral Resources Aquifer 
               license_info={
                   "name": "Apache 2.0",
                   "url": "https://www.apache.org/licenses/LICENSE-2.0.html"},
+              openapi_tags=settings.TAGS,
               )
 
 app.add_middleware(

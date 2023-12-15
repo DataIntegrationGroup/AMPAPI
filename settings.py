@@ -31,7 +31,17 @@ class Settings:
     # DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
     DESCRIPTION = ''
+    TAGS = None
 
+    """
+    Versioning rules. 
+    X.Y.Z
+    X - major version. incompatible API changes
+    Y - minor version. backward compatible API changes. new features
+    Z - patch version. backward compatible bug fixes. cosmetic changes
+    """
+
+    VERSION = '0.3.1'
     ALLOWED_HOSTS: list = ["*"]
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # in mins
@@ -71,6 +81,14 @@ class Settings:
 
         with open('./description.md') as rfile:
             self.DESCRIPTION = rfile.read()
+
+        self.TAGS = [{'name': 'public/locations', 'description': 'Publicly available locations'},
+                     {'name': 'public/waterlevels', 'description': 'Publicly available water levels'},
+                     {'name': 'locations', 'description': 'Locations only accessible to NMBGMR Staff; '
+                                                          '<b>authentication required</b>'},
+                     {'name': 'NGWMN', 'description': 'National Ground Water Monitoring Network. These endpoints are '
+                                                      'used by the NGWMN to access data from the NMBGMR'},
+                     ]
 
 settings = Settings()
 # ============= EOF =============================================
