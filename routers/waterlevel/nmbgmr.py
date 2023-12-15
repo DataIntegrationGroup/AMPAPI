@@ -23,10 +23,10 @@ from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
 from dependencies import get_db
-from routers.v1.crud import waterlevels_manual_query
+from routers.crud import waterlevels_manual_query
 from schemas import waterlevel
 
-router = APIRouter(prefix="/api/v1/waterlevels", tags=["waterlevels"])
+router = APIRouter(prefix="/waterlevels", tags=["waterlevels"])
 
 
 @router.get("/manual", response_model=Page[waterlevel.WaterLevels])

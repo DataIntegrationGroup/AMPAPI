@@ -19,7 +19,7 @@ from starlette.middleware.cors import CORSMiddleware
 from settings import settings
 
 app = FastAPI(title='New Mexico Bureau of Geology and Mineral Resources Aquifer Mapping Program API',
-              version='0.1',
+              version='0.2',
               docs_url='/',
               redoc_url='/redoc',
               openapi_url='/openapi.json',

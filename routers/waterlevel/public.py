@@ -13,22 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from fastapi import APIRouter, Depends
+
+import csv
+import io
+from datetime import datetime
+from fastapi_pagination import Page, LimitOffsetPage
+from fastapi_pagination.ext.sqlalchemy import paginate
+from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
 from dependencies import get_db
-from routers.v1 import locations_feature_collection
-from routers.v1.crud import db_get_locations
-from schemas import location
+from routers.crud import waterlevels_manual_query
+from schemas import waterlevel
 
-router = APIRouter(prefix="/api/v1/public/locations", tags=["public/locations"])
+router = APIRouter(prefix="/public/waterlevels", tags=["public/waterlevels"])
 
 
-@router.get("", response_model=location.LocationFeatureCollection)
-def get_locations(limit: int = 10, db: Session = Depends(get_db)):
-    locations = db_get_locations(db, limit=limit)
-    return locations_feature_collection(locations)
-
-# helpers =======================================================================
+@router.get("/manual", response_model=Page[waterlevel.WaterLevels])
+@router.get(
+    "/manual/limit-offset",
+    response_model=LimitOffsetPage[waterlevel.WaterLevels],
+    include_in_schema=False,
+)
+def get_waterlevels_manual(pointid: str = None, db: Session = Depends(get_db)):
+    q = waterlevels_manual_query(db, pointid)
+    return paginate(q)
 
 # ============= EOF =============================================

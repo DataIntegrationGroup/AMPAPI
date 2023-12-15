@@ -13,21 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
-def locations_feature_collection(locations):
-    def togeojson(l, w):
-        return {
-            "type": "Feature",
-            "properties": {
-                "name": l.PointID,
-                "well_depth": {"value": w.WellDepth, "units": "ft"},
-            },
-            "geometry": l.geometry,
-        }
+from dependencies import get_db
+from routers import locations_feature_collection
+from routers.crud import db_get_locations
+from schemas import location
 
-    content = {
-        "features": [togeojson(*l) for l in locations],
-    }
+router = APIRouter(prefix="/public/locations", tags=["public/locations"])
 
-    return content
+
+@router.get("", response_model=location.LocationFeatureCollection)
+def get_locations(limit: int = 10, db: Session = Depends(get_db)):
+    locations = db_get_locations(db, limit=limit)
+    return locations_feature_collection(locations)
+
+# helpers =======================================================================
+
 # ============= EOF =============================================
