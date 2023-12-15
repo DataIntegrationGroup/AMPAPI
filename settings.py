@@ -29,6 +29,9 @@ class Settings:
     # )  # default postgres port is 5432
     # POSTGRES_DB: str = os.getenv("POSTGRES_DB", "tdd")
     # DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+
+    DESCRIPTION = ''
+
     ALLOWED_HOSTS: list = ["*"]
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # in mins
@@ -66,6 +69,8 @@ class Settings:
                 f"mssql+pymssql://{user}:{password}@{host}/{database}"
             )
 
+        with open('./description.md') as rfile:
+            self.DESCRIPTION = rfile.read()
 
 settings = Settings()
 # ============= EOF =============================================

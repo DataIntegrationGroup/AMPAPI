@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
+from fastapi_utils.guid_type import GUID
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declared_attr, relationship
 
@@ -81,4 +82,11 @@ class MeasurementMixin(object):
         except AttributeError:
             return ""
 
+
+class ProjectLocations(Base):
+    __tablename__ = "ProjectLocations"
+    GlobalID = Column(GUID, primary_key=True)
+    LocationId = Column(GUID, ForeignKey("Location.LocationId"))
+    PointID = Column(String(10))
+    ProjectName = Column(String(250))
 # ============= EOF =============================================

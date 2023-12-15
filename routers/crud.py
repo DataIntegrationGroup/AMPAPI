@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from models import location, waterlevel
+from models import location, waterlevel, ProjectLocations
 
 
 def geometry_filter(q):
@@ -26,18 +26,40 @@ def public_release_filter(q):
     return q.filter(location.Location.PublicRelease == True)
 
 
+def active_monitoring_filter(q):
+    q = q.filter(location.Well.MonitoringStatus.notlike("%I%"))
+    q = q.filter(location.Well.MonitoringStatus.notlike("%C%"))
+    q = q.filter(location.Well.MonitoringStatus.notlike("%X%"))
+    return q
+
+
 def pointid_filter(q, pointid):
     if pointid:
         q = q.filter(location.Location.PointID == pointid)
     return q
 
 
-def db_get_locations(db, limit=10, only_public=True):
+def collabnet_filter(q):
+    return q.filter(ProjectLocations.ProjectName == "Water Level Network")
+
+
+def db_get_locations(db, limit=10,
+                     collaborative_network=False,
+                     only_active=False,
+                     only_public=True):
     q = db.query(location.Location, location.Well)
     q = q.join(location.Well)
+    if collaborative_network:
+        q = q.join(ProjectLocations)
+
     q = geometry_filter(q)
+    if collaborative_network:
+        q = collabnet_filter(q)
     if only_public:
         q = public_release_filter(q)
+    if only_active:
+        q = active_monitoring_filter(q)
+
     q = q.order_by(location.Location.PointID)
     if limit > 0:
         q = q.limit(limit)

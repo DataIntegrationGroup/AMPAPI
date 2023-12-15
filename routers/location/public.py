@@ -29,6 +29,14 @@ def get_locations(limit: int = 10, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit)
     return locations_feature_collection(locations)
 
+
+@router.get('/collaborative_network', response_model=location.LocationFeatureCollection)
+def get_collaborative_network(active: bool = True, db: Session = Depends(get_db)):
+    locations = db_get_locations(db, collaborative_network=True,
+                                 only_active=active,
+                                 only_public=True)
+    return locations_feature_collection(locations)
+
 # helpers =======================================================================
 
 # ============= EOF =============================================

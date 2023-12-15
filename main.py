@@ -20,6 +20,7 @@ from routers.location.nmbgmr import router as nmbgmr_location_router
 from routers.location.public import router as public_location_router
 from routers.waterlevel.public import router as public_waterlevel_router
 from routers.waterlevel.nmbgmr import router as nmbgmr_waterlevel_router
+from routers.ngwmn.public import router as public_ngwmn_router
 
 # authenicated routers
 app.include_router(nmbgmr_location_router)
@@ -28,6 +29,10 @@ app.include_router(nmbgmr_waterlevel_router)
 # public routers
 app.include_router(public_location_router)
 app.include_router(public_waterlevel_router)
+app.include_router(public_ngwmn_router)
+
+
+
 # app.include_router(wells.router)
 # app.include_router(waterlevels.router)
 # app.include_router(ngwmn.router)
