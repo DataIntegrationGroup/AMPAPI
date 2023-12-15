@@ -36,4 +36,13 @@ def db_get_locations(db, limit=10, only_public=True):
     if limit > 0:
         q = q.limit(limit)
     return q.all()
+
+
+def db_get_location(db, pointid, only_public=True):
+    q = db.query(models.Location)
+    q = q.filter(models.Location.PointID == pointid)
+    if only_public:
+        q = public_release_filter(q)
+
+    return q.first()
 # ============= EOF =============================================

@@ -25,6 +25,13 @@ app = FastAPI(title='New Mexico Bureau of Geology and Mineral Resources Aquifer 
               openapi_url='/openapi.json',
               description='''This API provides access to the Aquifer Mapping Program's groundwater level and water 
               chemistry database.''',
+              contact={
+                  "name": "Stacy Timmons",
+                  "url": "https://geoinfo.nmt.edu/staff/detail.cfml?name=stimmons",
+                  "email": "stacy.timmons@nmt.edu"},
+              license_info={
+                  "name": "Apache 2.0",
+                  "url": "https://www.apache.org/licenses/LICENSE-2.0.html"},
               )
 
 app.add_middleware(
