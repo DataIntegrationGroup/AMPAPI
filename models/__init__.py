@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import declared_attr, relationship
 
 from database import Base
 
@@ -45,4 +46,39 @@ class LU_DataSource(Base, LU_Mixin):
 
 class LU_AltitudeMethod(Base, LU_Mixin):
     __tablename__ = "LU_AltitudeMethod"
+
+
+class MeasurementMixin(object):
+    MeasuringAgency = Column(String(50))
+
+    @declared_attr
+    def MeasurementMethod(cls):
+        return Column(String(50), ForeignKey("LU_MeasurementMethod.Code"))
+
+    @declared_attr
+    def DataSource(cls):
+        return Column(String(50), ForeignKey("LU_DataSource.Code"))
+
+    @declared_attr
+    def lu_measurement_method(cls):
+        return relationship("LU_MeasurementMethod", uselist=False, lazy="joined")
+
+    @declared_attr
+    def lu_data_source(cls):
+        return relationship("LU_DataSource", uselist=False, lazy="joined")
+
+    @property
+    def measurement_method(self):
+        try:
+            return self.lu_measurement_method.Meaning
+        except AttributeError:
+            return ""
+
+    @property
+    def data_source(self):
+        try:
+            return self.lu_data_source.Meaning
+        except AttributeError:
+            return ""
+
 # ============= EOF =============================================

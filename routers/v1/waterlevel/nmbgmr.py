@@ -13,26 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from fastapi_pagination import add_pagination
 
-from app import app
-from routers.v1.location.nmbgmr import router as nmbgmr_location_router
-from routers.v1.location.public import router as public_location_router
-from routers.v1.waterlevel.public import router as public_waterlevel_router
-from routers.v1.waterlevel.nmbgmr import router as nmbgmr_waterlevel_router
+import csv
+import io
+from datetime import datetime
+from fastapi_pagination import Page, LimitOffsetPage
+from fastapi_pagination.ext.sqlalchemy import paginate
+from fastapi import Depends, APIRouter
+from sqlalchemy.orm import Session
 
-# authenicated routers
-app.include_router(nmbgmr_location_router)
-app.include_router(nmbgmr_waterlevel_router)
+from dependencies import get_db
+from routers.v1.crud import waterlevels_manual_query
+from schemas import waterlevel
 
-# public routers
-app.include_router(public_location_router)
-app.include_router(public_waterlevel_router)
-# app.include_router(wells.router)
-# app.include_router(waterlevels.router)
-# app.include_router(ngwmn.router)
-# app.include_router(collab_net.router)
-# app.include_router(usgs.router)
+router = APIRouter(prefix="/api/v1/waterlevels", tags=["waterlevels"])
 
-add_pagination(app)
+
+@router.get("/manual", response_model=Page[waterlevel.WaterLevels])
+@router.get(
+    "/manual/limit-offset",
+    response_model=LimitOffsetPage[waterlevel.WaterLevels],
+    include_in_schema=False,
+)
+def get_waterlevels_manual(pointid: str = None, db: Session = Depends(get_db)):
+    q = waterlevels_manual_query(db, pointid)
+    return paginate(q)
+
 # ============= EOF =============================================

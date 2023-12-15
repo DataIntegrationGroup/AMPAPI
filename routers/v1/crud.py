@@ -13,36 +13,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from models.locations import models
+from models import location, waterlevel
 
 
 def geometry_filter(q):
-    return q.filter(models.Location.Easting != None).filter(
-        models.Location.Northing != None
+    return q.filter(location.Location.Easting != None).filter(
+        location.Location.Northing != None
     )
 
 
 def public_release_filter(q):
-    return q.filter(models.Location.PublicRelease == True)
+    return q.filter(location.Location.PublicRelease == True)
+
+
+def pointid_filter(q, pointid):
+    if pointid:
+        q = q.filter(location.Location.PointID == pointid)
+    return q
 
 
 def db_get_locations(db, limit=10, only_public=True):
-    q = db.query(models.Location, models.Well)
-    q = q.join(models.Well)
+    q = db.query(location.Location, location.Well)
+    q = q.join(location.Well)
     q = geometry_filter(q)
     if only_public:
         q = public_release_filter(q)
-    q = q.order_by(models.Location.PointID)
+    q = q.order_by(location.Location.PointID)
     if limit > 0:
         q = q.limit(limit)
     return q.all()
 
 
 def db_get_location(db, pointid, only_public=True):
-    q = db.query(models.Location)
-    q = q.filter(models.Location.PointID == pointid)
+    q = db.query(location.Location)
+    q = q.filter(location.Location.PointID == pointid)
     if only_public:
         q = public_release_filter(q)
 
     return q.first()
+
+
+def waterlevels_manual_query(db, pointid, only_public=True):
+    q = db.query(waterlevel.WaterLevel)
+
+    if pointid:
+        q = q.join(location.Well)
+        q = q.join(location.Location)
+        q = pointid_filter(q, pointid)
+
+    q = q.order_by(waterlevel.WaterLevel.DateMeasured)
+    if only_public:
+        q = public_release_filter(q)
+    return q
 # ============= EOF =============================================
