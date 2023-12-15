@@ -17,15 +17,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from dependencies import get_db
-from routers.locations import locations_feature_collection
-from routers.locations.crud import db_get_locations
+from routers.v1 import locations_feature_collection
+from routers.v1.crud import db_get_locations
 from auth import auth
 
 router = APIRouter(prefix="/locations", tags=["locations"],
                    dependencies=[Depends(auth.authenticated())])
 
 
-@router.get("/all")
+@router.get("")
 def get_locations(db: Session = Depends(get_db)):
     locations = db_get_locations(db, only_public=False)
     return locations_feature_collection(locations)

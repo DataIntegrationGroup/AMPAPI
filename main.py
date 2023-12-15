@@ -14,9 +14,11 @@
 # limitations under the License.
 # ===============================================================================
 from app import app
-from routers.locations.v1 import router as location_router
+from routers.v1.location.nmbgmr import router as nmbgmr_location_router
+from routers.v1.location.public import router as public_location_router
 
-app.include_router(location_router)
+app.include_router(nmbgmr_location_router)
+app.include_router(public_location_router)
 # app.include_router(wells.router)
 # app.include_router(waterlevels.router)
 # app.include_router(ngwmn.router)

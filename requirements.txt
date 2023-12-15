@@ -1,6 +1,9 @@
 fastapi>=0.105
+fastapi_utils
 uvicorn
 sqlalchemy>=2.0
 pymssql
 requests
 fief-client[fastapi]
+pyproj
+makefun

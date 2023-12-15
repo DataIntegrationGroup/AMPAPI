@@ -63,7 +63,7 @@ class Settings:
             database = os.environ.get("DB_NAME")
 
             self.SQLALCHEMY_DATABASE_URL = (
-                f"mssql+pymssq://{user}:{password}@{host}/{database}"
+                f"mssql+pymssql://{user}:{password}@{host}/{database}"
             )
 
 

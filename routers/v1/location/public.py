@@ -13,26 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
-from settings import settings
+from dependencies import get_db
+from routers.v1 import locations_feature_collection
+from routers.v1.crud import db_get_locations
+from schemas import location
 
-app = FastAPI(title='New Mexico Bureau of Geology and Mineral Resources Aquifer Mapping Program API',
-              version='0.1',
-              docs_url='/',
-              redoc_url='/redoc',
-              openapi_url='/openapi.json',
-              description='''This API provides access to the Aquifer Mapping Program's groundwater level and water 
-              chemistry database.''',
-              )
+router = APIRouter(prefix="/public/locations", tags=["public/locations"])
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.ALLOWED_HOSTS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
+@router.get("", response_model=location.LocationFeatureCollection)
+def get_locations(limit: int=10, db: Session = Depends(get_db)):
+    locations = db_get_locations(db, limit=limit)
+    return locations_feature_collection(locations)
+
+
+# helpers =======================================================================
 
 # ============= EOF =============================================

@@ -13,25 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from models.locations import models
 
+def locations_feature_collection(locations):
+    def togeojson(l, w):
+        return {
+            "type": "Feature",
+            "properties": {
+                "name": l.PointID,
+                "well_depth": {"value": w.WellDepth, "units": "ft"},
+            },
+            "geometry": l.geometry,
+        }
 
-def geometry_filter(q):
-    return q.filter(models.Location.Easting != None).filter(
-        models.Location.Northing != None
-    )
+    content = {
+        "features": [togeojson(*l) for l in locations],
+    }
 
-
-def public_release_filter(q):
-    return q.filter(models.Location.PublicRelease == True)
-
-
-def db_get_locations(db, only_public=True):
-    q = db.query(models.Location, models.Well)
-    q = q.join(models.Well)
-    q = geometry_filter(q)
-    if only_public:
-        q = public_release_filter(q)
-    q = q.order_by(models.Location.PointID)
-    return q.all()
+    return content
 # ============= EOF =============================================

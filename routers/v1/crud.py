@@ -13,22 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-
-from dependencies import get_db
-from routers.locations import locations_feature_collection
-from routers.locations.crud import db_get_locations
-
-router = APIRouter(prefix="/public/locations", tags=["public.locations"])
+from models.locations import models
 
 
-@router.get("/all")
-def get_locations(db: Session = Depends(get_db)):
-    locations = db_get_locations(db)
-    return locations_feature_collection(locations)
+def geometry_filter(q):
+    return q.filter(models.Location.Easting != None).filter(
+        models.Location.Northing != None
+    )
 
 
-# helpers =======================================================================
+def public_release_filter(q):
+    return q.filter(models.Location.PublicRelease == True)
 
+
+def db_get_locations(db, limit=10, only_public=True):
+    q = db.query(models.Location, models.Well)
+    q = q.join(models.Well)
+    q = geometry_filter(q)
+    if only_public:
+        q = public_release_filter(q)
+    q = q.order_by(models.Location.PointID)
+    if limit > 0:
+        q = q.limit(limit)
+    return q.all()
 # ============= EOF =============================================

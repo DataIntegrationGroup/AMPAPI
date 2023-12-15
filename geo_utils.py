@@ -1,5 +1,5 @@
 # ===============================================================================
-# Copyright 2023 Jake Ross
+# Copyright 2023 ross
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,21 +13,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
+import pyproj
 
-def locations_feature_collection(locations):
-    def togeojson(l, w):
-        return {
-            "type": "Feature",
-            "properties": {
-                "name": l.PointID,
-                "well_depth": {"value": w.WellDepth, "units": "ft"},
-            },
-            "geometry": l.geometry,
-        }
+PROJECTIONS = {}
 
-    content = {
-        "features": [togeojson(*l) for l in locations],
-    }
 
-    return content
+def utm_to_latlon(e, n, zone=13):
+    name = f"utm{zone}"
+    if name not in PROJECTIONS:
+        pr = pyproj.Proj(proj="utm", zone=int(zone), ellps="WGS84")
+        PROJECTIONS[name] = pr
+    pr = PROJECTIONS[name]
+    return pr(e, n, inverse=True)
+
+
+def latlon_to_utm(lon, lat):
+    name = "latlon"
+    if name not in PROJECTIONS:
+        pr = pyproj.Proj(proj="utm", ellps="WGS84")
+        PROJECTIONS[name] = pr
+
+    pr = PROJECTIONS[name]
+    return pr(lon, lat)
+
+
 # ============= EOF =============================================
