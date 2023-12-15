@@ -24,7 +24,8 @@ from routers.v1 import locations_feature_collection
 from routers.v1.crud import db_get_locations, db_get_location
 from auth import auth
 
-router = APIRouter(prefix="/locations", tags=["locations"],
+router = APIRouter(prefix="/api/v1/locations", tags=["locations"],
+
                    dependencies=[Depends(auth.authenticated())])
 
 

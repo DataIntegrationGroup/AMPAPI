@@ -21,14 +21,13 @@ from routers.v1 import locations_feature_collection
 from routers.v1.crud import db_get_locations
 from schemas import location
 
-router = APIRouter(prefix="/public/locations", tags=["public/locations"])
+router = APIRouter(prefix="/api/v1/public/locations", tags=["public/locations"])
 
 
 @router.get("", response_model=location.LocationFeatureCollection)
-def get_locations(limit: int=10, db: Session = Depends(get_db)):
+def get_locations(limit: int = 10, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit)
     return locations_feature_collection(locations)
-
 
 # helpers =======================================================================
 
