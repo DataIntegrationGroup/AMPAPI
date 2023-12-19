@@ -41,7 +41,7 @@ class Settings:
     Z - patch version. backward compatible bug fixes. cosmetic changes
     """
 
-    VERSION = '0.3.2'
+    VERSION = '0.4.0'
     ALLOWED_HOSTS: list = ["*"]
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # in mins

@@ -53,4 +53,50 @@ class LocationGeoJSON(ORMBaseModel):
 class LocationFeatureCollection(BaseModel):
     type: str = "FeatureCollection"
     features: list = Field(..., alias="features")
+
+
+class ProjectLocations(ORMBaseModel):
+    GlobalID: Union[UUID, None]
+    LocationId: Union[UUID, None]
+    PointID: Union[str, None]
+    ProjectName: Union[str, None]
+
+
+class Equipment(ORMBaseModel):
+    PointID: str
+    LocationId: UUID
+    EquipmentType: Union[str, None]
+    Model: Union[str, None]
+    SerialNo: Union[str, None]
+    DateInstalled: Union[date, None]
+    DateRemoved: Union[date, None]
+    RecordingInterval: Union[int, None]
+    Equipment_Notes: Union[str, None]
+
+
+class OwnersData(ORMBaseModel):
+    FirstName: Union[str, None]
+    LastName: Union[str, None]
+    OwnerKey: Union[str, None]
+    Email: Union[str, None]
+    CellPhone: Union[str, None]
+    Phone: Union[str, None]
+    MailingAddress: Union[str, None]
+    MailCity: Union[str, None]
+    MailState: Union[str, None]
+    MailZipCode: Union[str, None]
+    PhysicalAddress: Union[str, None]
+    PhysicalCity: Union[str, None]
+    PhysicalState: Union[str, None]
+    PhysicalZipCode: Union[str, None]
+    SecondLastName: Union[str, None]
+    SecondFirstName: Union[str, None]
+    SecondCtctEmail: Union[str, None]
+    SecondCtctPhone: Union[str, None]
+
+
+class WellPhoto(ORMBaseModel):
+    GlobalID: Union[UUID, None]
+    PointID: Union[str, None]
+    OLEPath: Union[str, None]
 # ============= EOF =============================================

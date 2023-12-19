@@ -83,10 +83,4 @@ class MeasurementMixin(object):
             return ""
 
 
-class ProjectLocations(Base):
-    __tablename__ = "ProjectLocations"
-    GlobalID = Column(GUID, primary_key=True)
-    LocationId = Column(GUID, ForeignKey("Location.LocationId"))
-    PointID = Column(String(10))
-    ProjectName = Column(String(250))
 # ============= EOF =============================================

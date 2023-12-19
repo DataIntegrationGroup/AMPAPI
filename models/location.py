@@ -31,7 +31,6 @@ from fastapi_utils.guid_type import GUID
 from geo_utils import utm_to_latlon
 
 
-
 class Location(Base):
     __tablename__ = "Location"
     LocationId = Column(GUID, primary_key=True)
@@ -105,6 +104,7 @@ class Well(Base):
 
     lu_formation = relationship("LU_Formations", backref="wells", uselist=False)
     location = relationship("Location", backref="well", uselist=False)
+
     # manual_waterlevels = relationship("WaterLevels", backref="well", uselist=False)
 
     @property
@@ -123,4 +123,60 @@ class Well(Base):
         return self.lu_formation.Meaning
 
 
+class ProjectLocations(Base):
+    __tablename__ = "ProjectLocations"
+    GlobalID = Column(GUID, primary_key=True)
+    LocationId = Column(GUID, ForeignKey("Location.LocationId"))
+    PointID = Column(String(10))
+    ProjectName = Column(String(250))
+
+
+class OwnersData(Base):
+    __tablename__ = "OwnersData"
+    FirstName = Column(String(50))
+    LastName = Column(String(50))
+    OwnerKey = Column(String(50), primary_key=True)
+    Email = Column(String(50))
+    CellPhone = Column(String(50))
+    Phone = Column(String(50))
+    MailingAddress = Column(String(50))
+    MailCity = Column(String(50))
+    MailState = Column(String(50))
+    MailZipCode = Column(String(50))
+    PhysicalAddress = Column(String(50))
+    PhysicalCity = Column(String(50))
+    PhysicalState = Column(String(50))
+    PhysicalZipCode = Column(String(50))
+    SecondLastName = Column(String(50))
+    SecondFirstName = Column(String(50))
+    SecondCtctEmail = Column(String(50))
+    SecondCtctPhone = Column(String(50))
+
+
+class OwnerLink(Base):
+    __tablename__ = "OwnerLink"
+    GlobalID = Column(GUID, primary_key=True)
+    LocationId = Column(GUID, ForeignKey("Location.LocationId"))
+    OwnerKey = Column(String(50), ForeignKey("OwnersData.OwnerKey"))
+
+
+class Equipment(Base):
+    __tablename__ = "Equipment"
+    ID = Column(Integer, primary_key=True)
+    PointID = Column(String(50))
+    LocationId = Column(GUID, ForeignKey("Location.LocationId"))
+    EquipmentType = Column(String(50))
+    Model = Column(String(50))
+    SerialNo = Column(String(50))
+    DateInstalled = Column(DateTime)
+    DateRemoved = Column(DateTime)
+    RecordingInterval = Column(Integer)
+    Equipment_Notes = Column(String(50), name="Equipment Notes")
+
+
+class WellPhotos(Base):
+    __tablename__ = "WellPhotos"
+    GlobalID = Column(GUID, primary_key=True)
+    PointID = Column(String(50))
+    OLEPath = Column(String(255))
 # ============= EOF =============================================

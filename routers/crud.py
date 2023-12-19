@@ -13,12 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from models import location, waterlevel, ProjectLocations
+from models import location, waterlevel
+from models.location import ProjectLocations
 
 
 def geometry_filter(q):
-    return q.filter(location.Location.Easting != None).filter(
-        location.Location.Northing != None
+    return q.filter(location.Location.Easting is not None).filter(
+        location.Location.Northing is not None
     )
 
 
@@ -74,6 +75,11 @@ def db_get_location(db, pointid, only_public=True):
 
     return q.first()
 
+
+def db_get_photos(db, pointid):
+    q = db.query(location.WellPhotos)
+    q = q.filter(location.WellPhotos.PointID == pointid)
+    return q.all()
 
 def waterlevels_manual_query(db, pointid, only_public=True):
     q = db.query(waterlevel.WaterLevel)

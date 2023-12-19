@@ -13,19 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
+from typing import List
 
 from fastapi import APIRouter, Depends
 from fastapi.openapi.models import Response
 from sqlalchemy.orm import Session
+from starlette.responses import FileResponse
 from starlette.status import HTTP_200_OK
 
 from dependencies import get_db
+from models.location import ProjectLocations, Location, Well, OwnersData, OwnerLink
 from routers import locations_feature_collection
-from routers.crud import db_get_locations, db_get_location
+from routers.crud import db_get_locations, db_get_location, db_get_photos
 from auth import auth
+from schemas import location
 
 router = APIRouter(prefix="/locations", tags=["locations"],
-
                    dependencies=[Depends(auth.authenticated())])
 
 
@@ -42,25 +45,41 @@ def location_notes(pointid: str, db: Session = Depends(get_db)):
         loc = Response(status_code=HTTP_200_OK)
     return loc.LocationNotes or ""
 
-#
-# @router.get("/{pointid}/projects", response_model=List[schemas.ProjectLocations])
-# def location_projects(pointid: str, db: Session = Depends(get_db)):
-#     q = db.query(models.ProjectLocations)
-#     q = q.filter(models.ProjectLocations.PointID == pointid)
-#     return q.all()
-#
-#
-# @router.get("/{pointid}/owners", response_model=schemas.OwnersData)
-# def location_detail_owners(pointid: str, db: Session = Depends(get_db)):
-#     q = db.query(models.Location, models.Well, models.OwnersData)
-#     q = q.join(models.Well)
-#     q = q.join(models.OwnerLink)
-#     q = q.join(models.OwnersData)
-#
-#     q = q.filter(models.Location.PointID == pointid)
-#     try:
-#         loc, well, ownersdata = q.first()
-#         return ownersdata
-#     except TypeError as e:
-#         return {}
+
+@router.get("/projects", response_model=List[location.ProjectLocations])
+def location_projects(pointid: str, db: Session = Depends(get_db)):
+    q = db.query(ProjectLocations)
+    q = q.filter(ProjectLocations.PointID == pointid)
+    return q.all()
+
+
+@router.get("/owners", response_model=location.OwnersData)
+def location_owners(pointid: str, db: Session = Depends(get_db)):
+    q = db.query(Location, Well, OwnersData)
+    q = q.join(Well)
+    q = q.join(OwnerLink)
+    q = q.join(OwnersData)
+
+    q = q.filter(Location.PointID == pointid)
+    try:
+        loc, well, ownersdata = q.first()
+        return ownersdata
+    except TypeError as e:
+        return {}
+
+
+@router.get("/photos", response_model=List[location.WellPhoto])
+def location_photos(pointid: str, db: Session = Depends(get_db)):
+    photo_records = db_get_photos(db, pointid)
+    return photo_records
+
+
+@router.get('/photo/{photoid}')
+def location_photo(pointid: str, photoid: str, db: Session = Depends(get_db)):
+    photo_records = db_get_photos(db, pointid)
+    if photo_records:
+        path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"
+        return FileResponse(path)
+    else:
+        return Response(status_code=HTTP_200_OK)
 # ============= EOF =============================================
