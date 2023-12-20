@@ -24,7 +24,7 @@ from starlette.status import HTTP_200_OK
 from dependencies import get_db
 from models.location import ProjectLocations, Location, Well, OwnersData, OwnerLink
 from routers import locations_feature_collection
-from routers.crud import db_get_locations, db_get_location, db_get_photos
+from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment
 from auth import auth
 from schemas import location
 
@@ -38,8 +38,16 @@ def get_locations(db: Session = Depends(get_db)):
     return locations_feature_collection(locations)
 
 
+@router.get("/equipment", response_model=List[location.Equipment])
+def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
+    eq = db_get_equipment(db, pointid)
+    if eq is None:
+        eq = Response(status_code=HTTP_200_OK)
+    return eq
+
+
 @router.get("/notes")
-def location_notes(pointid: str, db: Session = Depends(get_db)):
+def get_location_notes(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid, only_public=False)
     if loc is None:
         loc = Response(status_code=HTTP_200_OK)
@@ -47,14 +55,14 @@ def location_notes(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/projects", response_model=List[location.ProjectLocations])
-def location_projects(pointid: str, db: Session = Depends(get_db)):
+def get_location_projects(pointid: str, db: Session = Depends(get_db)):
     q = db.query(ProjectLocations)
     q = q.filter(ProjectLocations.PointID == pointid)
     return q.all()
 
 
 @router.get("/owners", response_model=location.OwnersData)
-def location_owners(pointid: str, db: Session = Depends(get_db)):
+def get_location_owners(pointid: str, db: Session = Depends(get_db)):
     q = db.query(Location, Well, OwnersData)
     q = q.join(Well)
     q = q.join(OwnerLink)
@@ -69,13 +77,13 @@ def location_owners(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/photos", response_model=List[location.WellPhoto])
-def location_photos(pointid: str, db: Session = Depends(get_db)):
+def get_location_photos(pointid: str, db: Session = Depends(get_db)):
     photo_records = db_get_photos(db, pointid)
     return photo_records
 
 
 @router.get('/photo/{photoid}')
-def location_photo(pointid: str, photoid: str, db: Session = Depends(get_db)):
+def get_location_photo(pointid: str, photoid: str, db: Session = Depends(get_db)):
     photo_records = db_get_photos(db, pointid)
     if photo_records:
         path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"

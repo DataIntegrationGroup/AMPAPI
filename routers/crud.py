@@ -44,6 +44,14 @@ def collabnet_filter(q):
     return q.filter(ProjectLocations.ProjectName == "Water Level Network")
 
 
+def db_get_equipment(db, pointid):
+    q = db.query(location.Equipment)
+    q = q.join(location.Location)
+    q = pointid_filter(q, pointid)
+    q = q.order_by(location.Equipment.DateInstalled.desc())
+    return q.all()
+
+
 def db_get_locations(db, limit=10,
                      collaborative_network=False,
                      only_active=False,
@@ -76,10 +84,20 @@ def db_get_location(db, pointid, only_public=True):
     return q.first()
 
 
+def db_get_well(db, pointid, only_public=True):
+    q = db.query(location.Well)
+    q = q.join(location.Location)
+    q = q.filter(location.Location.PointID == pointid)
+    if only_public:
+        q = public_release_filter(q)
+    return q.first()
+
+
 def db_get_photos(db, pointid):
     q = db.query(location.WellPhotos)
     q = q.filter(location.WellPhotos.PointID == pointid)
     return q.all()
+
 
 def waterlevels_manual_query(db, pointid, only_public=True):
     q = db.query(waterlevel.WaterLevel)

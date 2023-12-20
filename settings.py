@@ -50,7 +50,7 @@ class Settings:
     SQLALCHEMY_DATABASE_URL: str
 
     # FIEF ==================================================
-    FIEF_URL: str = "https://fief.newmexicowaterdata.org"
+    FIEF_URL: str
     FIEF_CLIENT_ID: str
     FIEF_CLIENT_SECRET: str
 
@@ -60,7 +60,7 @@ class Settings:
 
         self.FIEF_CLIENT_SECRET = os.getenv("FIEF_CLIENT_SECRET")
         self.FIEF_CLIENT_ID = os.getenv("FIEF_CLIENT_ID")
-
+        self.FIEF_URL = os.getenv("FIEF_URL")
         database_url = os.environ.get("DATABASE_URL")
         if database_url:
             self.SQLALCHEMY_DATABASE_URL = database_url

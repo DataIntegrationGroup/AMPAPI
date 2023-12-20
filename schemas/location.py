@@ -99,4 +99,30 @@ class WellPhoto(ORMBaseModel):
     GlobalID: Union[UUID, None]
     PointID: Union[str, None]
     OLEPath: Union[str, None]
+
+
+class Well(ORMBaseModel):
+    LocationId: UUID
+    WellID: UUID
+    PointID: Union[str, None]
+    OSEWellID: Union[str, None] = Field(..., alias="ose_well_id")
+    OSEWelltagID: Union[str, None] = Field(..., alias="ose_welltag_id")
+    HoleDepth: Union[float, None] = Field(..., alias="hole_depth_ftbgs")
+    WellDepth: Union[float, None] = Field(..., alias="well_depth_ftbgs")
+
+    CasingDiameter: Union[float, None] = Field(..., alias="casing_diameter_ft")
+    CasingDepth: Union[float, None] = Field(..., alias="casing_depth_ftbgs")
+    CasingDescription: Union[str, None] = Field(..., alias="casing_description")
+
+    MeasuringPoint: Union[str, None] = Field(..., alias="measuring_point")
+    MPHeight: Union[float, None] = Field(..., alias="measuring_point_height_ft")
+
+    FormationZone: Union[str, None] = Field(..., alias="formation")
+
+    StaticWater: Union[float, None] = Field(..., alias="static_water_level_ftbgs")
+
+    @validator("CasingDiameter", "MPHeight")
+    def round(cls, v):
+        if v is not None:
+            return round(v, 2)
 # ============= EOF =============================================

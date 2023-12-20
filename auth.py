@@ -23,8 +23,8 @@ from settings import settings
 scheme = OAuth2AuthorizationCodeBearer(
     authorizationUrl=f"{settings.FIEF_URL}/authorize",
     tokenUrl=f"{settings.FIEF_URL}/api/token",
-    scopes={"openid": "openid", "offline_access": "offline_access"},
-    auto_error=False,
+    # scopes={"openid": "openid", "offline_access": "offline_access"},
+    # auto_error=False,
 )
 
 fief = FiefAsync(

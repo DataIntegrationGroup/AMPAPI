@@ -15,17 +15,16 @@
 # ===============================================================================
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from starlette.responses import Response
+from starlette.status import HTTP_200_OK
 
 from dependencies import get_db
 from routers import locations_feature_collection, usgs_util
-from routers.crud import db_get_locations, db_get_location
+from routers.crud import db_get_locations, db_get_location, db_get_well
 from schemas import location
 
 router = APIRouter(prefix="/public/locations", tags=["public/locations"])
 
-@router.get("/heloo")
-def get_hello():
-    return 'hello'
 
 @router.get("",
             description='Get all publicly available locations',
@@ -55,6 +54,23 @@ def get_usgs_sitemetadata(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
     return usgs_util.get_site_metadata(loc)
 
+
+@router.get('/info', response_model=location.Location)
+def get_location_info(pointid: str, db: Session = Depends(get_db)):
+    loc = db_get_location(db, pointid)
+    if loc is None:
+        loc = Response(status_code=HTTP_200_OK)
+
+    return loc
+
+
+@router.get('/well', response_model=location.Well)
+def get_well(pointid: str, db: Session = Depends(get_db)):
+    well = db_get_well(db, pointid)
+    if well is None:
+        well = Response(status_code=HTTP_200_OK)
+
+    return well
 # helpers =======================================================================
 
 # ============= EOF =============================================
