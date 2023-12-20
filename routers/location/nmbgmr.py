@@ -83,9 +83,8 @@ def get_location_photos(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get('/photo/{photoid}')
-def get_location_photo(pointid: str, photoid: str, db: Session = Depends(get_db)):
-    photo_records = db_get_photos(db, pointid)
-    if photo_records:
+def get_location_photo(photoid: str):
+    if photoid:
         path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"
         return FileResponse(path)
     else:
