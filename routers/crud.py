@@ -13,7 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from models import location, waterlevel
+from sqlalchemy import func
+
+from models import location, waterlevel, waterchem
 from models.location import ProjectLocations
 
 
@@ -98,6 +100,39 @@ def db_get_photos(db, pointid):
     q = q.filter(location.WellPhotos.PointID == pointid)
     return q.all()
 
+
+# waterchem =======================================================================
+MAJOR_CHEM_ANALYTES = ['Na', 'K', 'Ca']
+
+def db_get_analyte_measurements(db, pointid, analyte, only_public=True, minorandtrace=False):
+    if analyte is None:
+        table = waterchem.MajorChemistry if not minorandtrace else waterchem.MinorandTraceChemistry
+    else:
+        if analyte in MAJOR_CHEM_ANALYTES:
+            table = waterchem.MajorChemistry
+        else:
+            table = waterchem.TraceChemistry
+
+    q = db.query(table)
+
+    if only_public or pointid:
+        q = q.join(location.Location, func.substring(table.SamplePointID, 0, func.len(table.SamplePointID)) ==
+                   location.Location.PointID)
+
+    if only_public:
+        q = public_release_filter(q)
+
+    if pointid:
+        q = q.filter(location.Location.PointID == pointid)
+
+    if analyte:
+        q = q.filter(table.Analyte == analyte)
+
+    q = q.limit(10)
+    return q.all()
+
+
+# =================================================================================
 
 def waterlevels_manual_query(db, pointid, only_public=True):
     q = db.query(waterlevel.WaterLevel)
