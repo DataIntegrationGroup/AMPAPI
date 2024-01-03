@@ -1,0 +1,10 @@
+fastapi>=0.105
+fastapi_utils
+fastapi_pagination
+uvicorn
+sqlalchemy<2.0
+pymssql
+requests
+fief-client[fastapi]
+pyproj
+makefun
