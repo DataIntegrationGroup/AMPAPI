@@ -32,6 +32,7 @@ class NMBGMRDescription(object):
         }
 
         """
+
         self.equipment = """
         Returns a list of equipment used at location (specified by its PointID),
         ordered by the date the equipment was installed. Each Equipment object
@@ -46,12 +47,14 @@ class NMBGMRDescription(object):
         - **DateInstalled**: the date the equipment was installed
         - **DateRemoved**: the date the equipment was removed, if it was removed
         """
+
         self.notes = """
         Returns the notes taken for a particular location. Returns an empty
         string if there are no notes.
         """
+
         self.projects = """
-        Returns a list of project locations for a given PointID. Each
+        Returns a list of projects for a given PointID. Each
         ProjectLocations object has the following attributes:
 
         - **GlobalID**: the primary key
@@ -59,6 +62,7 @@ class NMBGMRDescription(object):
         - **PointID**:
         - **ProjectName**: the name of each project
         """
+        
         self.owners = ""
         self.photos = ""
         self.photo_photoid = ""
