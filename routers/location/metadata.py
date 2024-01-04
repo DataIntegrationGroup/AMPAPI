@@ -1,13 +1,13 @@
 class NMBGMRSummary():
 
     def __init__(self):
-        self.all = "Get all NMBGMR and public well locations and associated data as a list of dictionaries formatted geojsons"
-        self.equipment = "Get information on equipment used at an NMBGMR location."
-        self.notes = "Get the notes from an NMBGMR location."
-        self.projects = "Get the project location for an NMBGMR."
-        self.owners = "Get the owners of an NMBGMR well location."
-        self.photos = "Get the photos associated with an NMBGMR well location."
-        self.photo_photoid = "Get a specific photo from an NMBGMR well location."
+        self.all = "Get all NMBGMR and public well locations and associated data as a list of geojsons-formatted dictionaries"
+        self.equipment = "Get information on equipment used at an NMBGMR location as a list of Equipment objects"
+        self.notes = "Get the notes from an NMBGMR location"
+        self.projects = "Get the projects associated with an NMBGMR location as a list"
+        self.owners = "Get the owners of an NMBGMR well location"
+        self.photos = "Get the photos associated with an NMBGMR well location as a list of WellPhoto objects"
+        self.photo_photoid = "Get a specific photo from an NMBGMR well location"
 
 class NMBGMRDescription(object):
 
@@ -87,7 +87,8 @@ class NMBGMRDescription(object):
         - **SecondCtctPhone**: the second phone number of the owner if it exists
         """
 
-        self.photos = """Returns a list of photo information for all photos 
+        self.photos = """
+        Returns a list of photo information for all photos 
         associated with a location. Each WellPhoto object has the following
         attributes:
 
@@ -96,4 +97,6 @@ class NMBGMRDescription(object):
         - **OLEPath**: the path to photo
         """
 
-        self.photo_photoid = ""
+        self.photo_photoid = """
+        Returns the file of a specific photo.
+        """

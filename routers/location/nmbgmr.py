@@ -41,7 +41,10 @@ def get_locations(db: Session = Depends(get_db)):
     return locations_feature_collection(locations)
 
 
-@router.get("/equipment", response_model=List[location.Equipment])
+@router.get("/equipment",
+            response_model=List[location.Equipment],
+            summary = NMBGMRSummary.equipment,
+            description = NMBGMRDescription.equipment)
 def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
     eq = db_get_equipment(db, pointid)
     if eq is None:
@@ -49,7 +52,9 @@ def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
     return eq
 
 
-@router.get("/notes")
+@router.get("/notes",
+            summary = NMBGMRSummary.notes,
+            description = NMBGMRDescription.notes)
 def get_location_notes(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid, only_public=False)
     if loc is None:
@@ -57,14 +62,20 @@ def get_location_notes(pointid: str, db: Session = Depends(get_db)):
     return loc.LocationNotes or ""
 
 
-@router.get("/projects", response_model=List[location.ProjectLocations])
+@router.get("/projects",
+            response_model=List[location.ProjectLocations],
+            summary = NMBGMRSummary.projects,
+            description = NMBGMRDescription.projects)
 def get_location_projects(pointid: str, db: Session = Depends(get_db)):
     q = db.query(ProjectLocations)
     q = q.filter(ProjectLocations.PointID == pointid)
     return q.all()
 
 
-@router.get("/owners", response_model=location.OwnersData)
+@router.get("/owners",
+            response_model=location.OwnersData,
+            summary = NMBGMRSummary.owners,
+            description = NMBGMRDescription.owners)
 def get_location_owners(pointid: str, db: Session = Depends(get_db)):
     q = db.query(Location, Well, OwnersData)
     q = q.join(Well)
@@ -79,13 +90,18 @@ def get_location_owners(pointid: str, db: Session = Depends(get_db)):
         return {}
 
 
-@router.get("/photos", response_model=List[location.WellPhoto])
+@router.get("/photos",
+            response_model=List[location.WellPhoto],
+            summary = NMBGMRSummary.photos,
+            description = NMBGMRDescription.description)
 def get_location_photos(pointid: str, db: Session = Depends(get_db)):
     photo_records = db_get_photos(db, pointid)
     return photo_records
 
 
-@router.get('/photo/{photoid}')
+@router.get('/photo/{photoid}',
+            summary = NMBGMRSummary.photo_photoid,
+            description = NMBGMRDescription.photo_photoid)
 def get_location_photo(photoid: str):
     if photoid:
         path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"
