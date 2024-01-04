@@ -1,3 +1,25 @@
+# ---------------
+# BEGIN PUBLIC ENDPOINT METADATA CLASSES
+# ---------------
+
+class PublicSummary():
+
+    def __init__(self):
+        pass
+
+class PublicDescription():
+
+    def __init__(self):
+        pass
+
+# ---------------
+# END PUBLIC ENDPOINT METADATA CLASSES
+# ---------------
+
+# ---------------
+# BEGIN NMBGMR ENDPOINT METADATA CLASSES
+# ---------------
+
 class NMBGMRSummary():
 
     def __init__(self):
@@ -100,3 +122,7 @@ class NMBGMRDescription(object):
         self.photo_photoid = """
         Returns the file of a specific photo.
         """
+
+# ---------------
+# END NMBGMR ENDPOINT METADATA CLASSES
+# ---------------
