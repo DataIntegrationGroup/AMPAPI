@@ -2,7 +2,7 @@ class NMBGMRSummary():
 
     def __init__(self):
         self.all = "Get all NMBGMR and public well locations and associated data as a list of dictionaries formatted geojsons"
-        self.equipment = "Get the equipment used at an NMBGMR location."
+        self.equipment = "Get information on equipment used at an NMBGMR location."
         self.notes = "Get the notes from an NMBGMR location."
         self.projects = "Get the project location for an NMBGMR."
         self.owners = "Get the owners of an NMBGMR well location."
