@@ -62,7 +62,30 @@ class NMBGMRDescription(object):
         - **PointID**:
         - **ProjectName**: the name of each project
         """
+
+        self.owners = """
+        Returns the owner of a well. Returns an empty dictionary if there is no
+        owner. Each OwnersData object has the following attributes:
+
+        - **FirstName**: the first name of the owner
+        - **LatName**: the last name of the owner
+        - **OwnerKey**: the primary key
+        - **Email**: the email address of the owner
+        - **CellPhone**: the cellphone number of the owner
+        - **Phone**: the phone number of the owner
+        - **MailAddress**: street number and name for the mailing address of the owner
+        - **MailCity**: city for the mailing address of the owner
+        - **MailState**: state for the mailing address of the owner
+        - **MailZipCode**: zip code for the mailing address of the owner
+        - **PhysicalAddress**: street number and name for the physical address of the owner
+        - **PhysicalCity**: city for the physical address of the owner
+        - **PhysicalState**: state for the physical address of the owner
+        - **PhysicalZipCode**: zip code fo the physical address of the owner
+        - **SecondLastName**: the second last name of the owner if it exists
+        - **SecondFirstName**: the second first name of the owner if it exists
+        - **SecondCtctEmail**: the second email address of the owner if it exists
+        - **SecondCtctPhone**: the second phone number of the owner if it exists
+        """
         
-        self.owners = ""
         self.photos = ""
         self.photo_photoid = ""
