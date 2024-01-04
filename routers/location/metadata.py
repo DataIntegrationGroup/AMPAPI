@@ -6,6 +6,10 @@ class PublicSummary():
 
     def __init__(self):
         self.all = "Get all publicly available well locations as a list of geojsons-formatted dictionaries"
+        self.collaborative_network = "Get collaborative network locations as a list of geojsons-formatted dictionaries"
+        self.usgs_site_metadata = "Get USGS site metadata"
+        self.info = "Get location and corresponding well information for a specific well"
+        self.well = "Get well and corresponding location information for a specific well"
 
 class PublicDescription():
 
