@@ -13,9 +13,9 @@ class NMBGMRDescription(object):
 
     def __init__(self):
         self.all = """
-        Get a list of dictionaries that contain information about NMBGMR well
-        locations and associated data. Each location must contain a northing and
-        an easting. 
+        Returns a list of dictionaries that contain information about NMBGMR
+        well locations and associated data. Each location must contain a 
+        northing and an easting. 
 
         Each dictionary is formatted as a geojson as follows:
 
@@ -32,7 +32,20 @@ class NMBGMRDescription(object):
         }
 
         """
-        self.equipment = ""
+        self.equipment = """
+        Returns a list of equipment used at location (specified by its PointID),
+        ordered by the date the equipment was installed. Each Equipment object
+        has the following attributes:
+
+        - **ID**: the primary key
+        - **PointID**:
+        - **LocationID**: the foreign key to join with the Location table
+        - **EquipmentType**: the type of equipment used
+        - **Model**: the model of the equiment used
+        - **SerialNo**: the serial number of the equipment used
+        - **DateInstalled**: the date the equipment was installed
+        - **DateRemoved**: the date the equipment was removed, if it was removed
+        """
         self.notes = ""
         self.projects = ""
         self.owners = ""
