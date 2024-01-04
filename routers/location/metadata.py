@@ -86,6 +86,14 @@ class NMBGMRDescription(object):
         - **SecondCtctEmail**: the second email address of the owner if it exists
         - **SecondCtctPhone**: the second phone number of the owner if it exists
         """
-        
-        self.photos = ""
+
+        self.photos = """Returns a list of photo information for all photos 
+        associated with a location. Each WellPhoto object has the following
+        attributes:
+
+        - **GlobalUD**: the primary key
+        - **PointID**: 
+        - **OLEPath**: the path to photo
+        """
+
         self.photo_photoid = ""
