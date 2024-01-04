@@ -50,7 +50,15 @@ class NMBGMRDescription(object):
         Returns the notes taken for a particular location. Returns an empty
         string if there are no notes.
         """
-        self.projects = ""
+        self.projects = """
+        Returns a list of project locations for a given PointID. Each
+        ProjectLocations object has the following attributes:
+
+        - **GlobalID**: the primary key
+        - **LocationID**: the foreign key to join with the Location table
+        - **PointID**:
+        - **ProjectName**: the name of each project
+        """
         self.owners = ""
         self.photos = ""
         self.photo_photoid = ""
