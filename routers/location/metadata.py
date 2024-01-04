@@ -5,7 +5,7 @@
 class PublicSummary():
 
     def __init__(self):
-        pass
+        self.all = "Get all publicly available well locations as a list of geojsons-formatted dictionaries"
 
 class PublicDescription():
 
@@ -23,7 +23,7 @@ class PublicDescription():
 class NMBGMRSummary():
 
     def __init__(self):
-        self.all = "Get all NMBGMR and public well locations and associated data as a list of geojsons-formatted dictionaries"
+        self.all = "Get all NMBGMR and publicly available well locations as a list of geojsons-formatted dictionaries"
         self.equipment = "Get information on equipment used at an NMBGMR location as a list of Equipment objects"
         self.notes = "Get the notes from an NMBGMR location"
         self.projects = "Get the projects associated with an NMBGMR location as a list"
@@ -35,9 +35,9 @@ class NMBGMRDescription(object):
 
     def __init__(self):
         self.all = """
-        Returns a list of dictionaries that contain information about NMBGMR
-        well locations and associated data. Each location must contain a 
-        northing and an easting. 
+        Returns a list of dictionaries that contain information about NMBGMR and
+        publicly available well locations and associated data. Each location 
+        must contain a northing and an easting. 
 
         Each dictionary is formatted as a geojson as follows:
 
