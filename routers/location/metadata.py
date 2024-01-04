@@ -46,7 +46,10 @@ class NMBGMRDescription(object):
         - **DateInstalled**: the date the equipment was installed
         - **DateRemoved**: the date the equipment was removed, if it was removed
         """
-        self.notes = ""
+        self.notes = """
+        Returns the notes taken for a particular location. Returns an empty
+        string if there are no notes.
+        """
         self.projects = ""
         self.owners = ""
         self.photos = ""
