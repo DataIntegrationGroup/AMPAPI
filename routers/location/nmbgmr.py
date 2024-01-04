@@ -27,12 +27,15 @@ from routers import locations_feature_collection
 from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment
 from auth import auth
 from schemas import location
+from metadata import NMBGMRSummary, NMBGMRDescription
 
 router = APIRouter(prefix="/locations", tags=["locations"],
                    dependencies=[Depends(auth.authenticated())])
 
 
-@router.get("")
+@router.get("",
+            summary = NMBGMRSummary.all,
+            description = NMBGMRDescription.all)
 def get_locations(db: Session = Depends(get_db)):
     locations = db_get_locations(db, only_public=False)
     return locations_feature_collection(locations)
