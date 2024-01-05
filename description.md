@@ -2,7 +2,7 @@ This API provides access to the Aquifer Mapping Program's groundwater level and 
 chemistry database.
 
 ## Data
-The data is stored in a MSSQL database. The database is updated on a semi-regualr basis
+The data is stored in a MSSQL database. The database is updated on a semi-regular basis
 with new manually measured depth to groundwater measurements. 
 
 ## Groundwater Level Data
