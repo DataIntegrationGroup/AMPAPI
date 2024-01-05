@@ -127,6 +127,45 @@ class PublicDescription():
         - **geometry**
         - **lonlat**
         """
+
+        self.well = """
+        Returns well and associated location information for a specific PointID.
+        The object being returned has the following attributes:
+
+        - **LocationId**: used to join well information to location information
+        - **PointID**
+        - **WellID**
+        - **HoleDepth**
+        - **WellDepth**
+        - **OSEWellID**
+        - **OSEWelltagID**
+        - **MeasuringPoint**
+        - **MPHeight**
+        - **CasingDiameter**
+        - **CasingDepth**
+        - **CasingDescription**
+        - **FormationZone**
+        - **StaticWater**
+        - **DataSource**
+        - **MonitoringStatus**
+        - **pod_url**
+        - **formation**
+        - **SiteID**
+        - **AlternateSiteID**
+        - **SiteNames**
+        - **PublicRelease**
+        - **Easting**
+        - **Northing**
+        - **Altitude**
+        - **LocationNotes**
+        - **AltitudeMethod**
+        - **lu_elevation_method**
+        - **Elevation**
+        - **elevation_method**
+        - **geometry**
+        - **lonlat**
+
+        """
 # ---------------
 # END PUBLIC ENDPOINT METADATA CLASSES
 # ---------------
