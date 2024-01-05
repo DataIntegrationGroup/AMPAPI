@@ -14,7 +14,49 @@ class PublicSummary():
 class PublicDescription():
 
     def __init__(self):
-        pass
+        self.all = """
+        Returns a list of dictionaries that contain information about publicly
+        available well locations and associated data. Each location must contain
+        a northing and an easting. 
+
+        Each dictionary is formatted as a geojson as follows:
+
+        {
+            "type": "Feature",
+            "properties": "{
+                "name": <PointID>,
+                "well_depth": {"value": <well depth>, "units": "ft"}
+            },
+            "geometry": {
+                "coordinates": [<longitude>, <latitude>, <elevation or 0>],
+                "type": "Point
+            }
+        }
+        """
+
+        self.collaborative_network = """
+        Returns a list of dictionaries that contain information about
+        collaborative network well locations and associated data. Each location
+        must contain a northing and an easting. 
+
+        Each dictionary is formatted as a geojson as follows:
+
+        {
+            "type": "Feature",
+            "properties": "{
+                "name": <PointID>,
+                "well_depth": {"value": <well depth>, "units": "ft"}
+            },
+            "geometry": {
+                "coordinates": [<longitude>, <latitude>, <elevation or 0>],
+                "type": "Point
+            }
+        }
+        """
+
+        self.usgs_site_metadata = """
+        
+        """
 
 # ---------------
 # END PUBLIC ENDPOINT METADATA CLASSES
@@ -56,7 +98,6 @@ class NMBGMRDescription(object):
                 "type": "Point
             }
         }
-
         """
 
         self.equipment = """
