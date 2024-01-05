@@ -55,9 +55,10 @@ class PublicDescription():
         """
 
         self.usgs_site_metadata = """
-        Returns a dictionary of metadata from a USGS site. If the metadata 
-        cannot be retrieved or there is an error code as a result of the request
-        to USGS, returns None.
+        Returns a dictionary of metadata from a USGS site. The data is retrieved
+        from the NWIS service <a href="https://waterservices.usgs.gov/rest/Site-Service.html">https://waterservices.usgs.gov/rest/Site-Service.html</a>'.
+        If the metadata  cannot be retrieved or there is an error code as a 
+        result of the request to USGS, returns None.
 
         The dictionary has the following keys
 
