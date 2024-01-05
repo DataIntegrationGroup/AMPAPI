@@ -27,24 +27,24 @@ from routers import locations_feature_collection
 from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment
 from auth import auth
 from schemas import location
-from metadata import NMBGMRSummary, NMBGMRDescription
+from routers.location.metadata import nmbgmrd_summary, nmbgmrd_description
 
 router = APIRouter(prefix="/locations", tags=["locations"],
                    dependencies=[Depends(auth.authenticated())])
 
 
 @router.get("",
-            summary = NMBGMRSummary.all,
-            description = NMBGMRDescription.all)
+            summary = nmbgmrd_summary.all,
+            description = nmbgmrd_description.all)
 def get_locations(db: Session = Depends(get_db)):
     locations = db_get_locations(db, only_public=False)
     return locations_feature_collection(locations)
 
 
 @router.get("/equipment",
-            response_model=List[location.Equipment],
-            summary = NMBGMRSummary.equipment,
-            description = NMBGMRDescription.equipment)
+            summary = nmbgmrd_summary.equipment,
+            description = nmbgmrd_description.equipment,
+            response_model=List[location.Equipment])
 def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
     eq = db_get_equipment(db, pointid)
     if eq is None:
@@ -53,8 +53,8 @@ def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/notes",
-            summary = NMBGMRSummary.notes,
-            description = NMBGMRDescription.notes)
+            summary = nmbgmrd_summary.notes,
+            description = nmbgmrd_description.notes)
 def get_location_notes(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid, only_public=False)
     if loc is None:
@@ -63,9 +63,9 @@ def get_location_notes(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/projects",
-            response_model=List[location.ProjectLocations],
-            summary = NMBGMRSummary.projects,
-            description = NMBGMRDescription.projects)
+            summary = nmbgmrd_summary.projects,
+            description = nmbgmrd_description.projects,
+            response_model=List[location.ProjectLocations])
 def get_location_projects(pointid: str, db: Session = Depends(get_db)):
     q = db.query(ProjectLocations)
     q = q.filter(ProjectLocations.PointID == pointid)
@@ -73,9 +73,9 @@ def get_location_projects(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/owners",
-            response_model=location.OwnersData,
-            summary = NMBGMRSummary.owners,
-            description = NMBGMRDescription.owners)
+            summary = nmbgmrd_summary.owners,
+            description = nmbgmrd_description.owners,
+            response_model=location.OwnersData)
 def get_location_owners(pointid: str, db: Session = Depends(get_db)):
     q = db.query(Location, Well, OwnersData)
     q = q.join(Well)
@@ -91,17 +91,17 @@ def get_location_owners(pointid: str, db: Session = Depends(get_db)):
 
 
 @router.get("/photos",
-            response_model=List[location.WellPhoto],
-            summary = NMBGMRSummary.photos,
-            description = NMBGMRDescription.description)
+            summary = nmbgmrd_summary.photos,
+            description = nmbgmrd_description.photos,
+            response_model=List[location.WellPhoto])
 def get_location_photos(pointid: str, db: Session = Depends(get_db)):
     photo_records = db_get_photos(db, pointid)
     return photo_records
 
 
 @router.get('/photo/{photoid}',
-            summary = NMBGMRSummary.photo_photoid,
-            description = NMBGMRDescription.photo_photoid)
+            summary = nmbgmrd_summary.photo_photoid,
+            description = nmbgmrd_description.photo_photoid)
 def get_location_photo(photoid: str):
     if photoid:
         path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"

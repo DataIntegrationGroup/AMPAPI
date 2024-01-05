@@ -1,6 +1,6 @@
-# ---------------
+# ==============================================================================
 # BEGIN PUBLIC ENDPOINT METADATA CLASSES
-# ---------------
+# ==============================================================================
 
 class PublicSummary():
 
@@ -164,20 +164,19 @@ class PublicDescription():
         - **elevation_method**
         - **geometry**
         - **lonlat**
-
         """
-# ---------------
-# END PUBLIC ENDPOINT METADATA CLASSES
-# ---------------
 
-# ---------------
+# ==============================================================================
+# END PUBLIC ENDPOINT METADATA CLASSES
+# ==============================================================================
+
+# ==============================================================================
 # BEGIN NMBGMR ENDPOINT METADATA CLASSES
-# ---------------
+# ==============================================================================
 
 class NMBGMRSummary():
-
     def __init__(self):
-        self.all = "Get all NMBGMR and publicly available well locations as a list of geojsons-formatted dictionaries"
+        self.all = "Get all NMBGMR and publicly available well locations as geojsons-formatted dictionaries"
         self.equipment = "Get information on equipment used at an NMBGMR location as a list of Equipment objects"
         self.notes = "Get the notes from an NMBGMR location"
         self.projects = "Get the projects associated with an NMBGMR location as a list"
@@ -189,11 +188,15 @@ class NMBGMRDescription(object):
 
     def __init__(self):
         self.all = """
-        Returns a list of dictionaries that contain information about NMBGMR and
-        publicly available well locations and associated data. Each location 
-        must contain a northing and an easting. 
+        Returns a JSON that contains a list of features. Each feature is a 
+        dictionary that is formatted as a geojson. The JSON is structured as 
+        follows
 
-        Each dictionary is formatted as a geojson as follows:
+        {
+            "features": [<geojson-formatted dictionaries>]
+        }  
+
+        Each geojson-formatted dictionary is formatted as follows:
 
         {
             "type": "Feature",
@@ -276,6 +279,20 @@ class NMBGMRDescription(object):
         Returns the file of a specific photo.
         """
 
-# ---------------
+
+# ==============================================================================
 # END NMBGMR ENDPOINT METADATA CLASSES
-# ---------------
+# ==============================================================================
+
+# ==============================================================================
+# BEGIN METADATA CLASS INSTANTIATIONS
+# ==============================================================================
+public_summary = PublicSummary()
+public_description = PublicDescription()
+
+nmbgmrd_summary = NMBGMRSummary()
+nmbgmrd_description = NMBGMRDescription()
+
+# ==============================================================================
+# END METADATA CLASS INSTANTIATIONS
+# ==============================================================================
