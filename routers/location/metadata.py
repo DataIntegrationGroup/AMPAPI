@@ -55,7 +55,51 @@ class PublicDescription():
         """
 
         self.usgs_site_metadata = """
-        
+        Returns a dictionary of metadata from a USGS site. The dictionary has 
+        the following keys
+
+        - **agency_cd**: agency
+        - **site_no**: site identification number
+        - **station_nm**: site name
+        - **site_tp_cd**: site type
+        - **lat_va**: DMS latitude
+        - **long_va**: DMS longitude
+        - **dec_lat_va**: decimal latitude
+        - **dev_long_va**: decimal longitude
+        - **coord_meth_cd**: latitude-longitude method
+        - **coord_acy_cd**: latitude-longitude accuracy
+        - **coord_datum_cd**: latitude-longitude datum
+        - **dec_coord_datum_cd**: decomal latitude-longitude datum
+        - **district_cd**: district code
+        - **state_cd**: state code
+        - **county_cd**: county code
+        - **country_cd**: country code
+        - **land_net_ds**: land net location description
+        - **map_nm**: name of location map
+        - **map_scale_fc**: scale of location map
+        - **alt_va**: altitude accuracy
+        - **alt_meth_cd**: method altitude determined
+        - **alt_acy_va**: altitude accuracy
+        - **alt_datum_cd**: altitude datum
+        - **huc_cd**: hydrologic unit code
+        - **basin_cd**: drainage basin code
+        - **topo_cd**: topographic setting code
+        - **instruments_cd**: flags for instruments at site
+        - **construction_dt**: date of first construction
+        - **inventory_dt**: date site established or inventoried
+        - **drain_area_va**: drainage area
+        - **contrib_drain_area_va**: contributing drainage area
+        - **tz_cd**: time zon abbreviation
+        - **local_time_fg**: site honors Daylight Savings Time
+        - **reliability_cd**: data reliability code
+        - **gw_file_cd**: data-other GW files
+        - **nat_aqfr_cd**: national aquifer code
+        - **aqfr_cd**: local aquifer code
+        - **aqfr_type_cd**: local aquifer type code
+        - **well_depth_va**: well depth
+        - **hole_depth_va**: hole depth
+        - **depth_src_cd**: source of depth data
+        - **project_no**: project number
         """
 
 # ---------------
