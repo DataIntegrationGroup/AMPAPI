@@ -8,7 +8,7 @@ class PublicSummary():
         self.all = "Get all publicly available well locations as a list of geojsons-formatted dictionaries"
         self.collaborative_network = "Get collaborative network locations as a list of geojsons-formatted dictionaries"
         self.usgs_site_metadata = "Get USGS site metadata"
-        self.info = "Get location and corresponding well information for a specific well"
+        self.info = "Get information about a specific location"
         self.well = "Get well and corresponding location information for a specific well"
 
 class PublicDescription():
@@ -105,6 +105,27 @@ class PublicDescription():
         - **project_no**: project number
         """
 
+        self.info = """
+        Returns location information for a specific PointID. The Location object
+        being returned has the following attributes:
+
+        - **LocationId**: primary key
+        - **PointID**
+        - **SiteID**
+        - **AlternateSiteID**
+        - **SiteNames**
+        - **PublicRelease**
+        - **Easting**
+        - **Northing**
+        - **Altitude**
+        - **LocationNotes**
+        - **AltitudeMethod**
+        - **lu_elevation_method**
+        - **Elevation**
+        - **elevation_method**
+        - **geometry**
+        - **lonlat**
+        """
 # ---------------
 # END PUBLIC ENDPOINT METADATA CLASSES
 # ---------------
