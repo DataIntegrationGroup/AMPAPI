@@ -55,8 +55,11 @@ class PublicDescription():
         """
 
         self.usgs_site_metadata = """
-        Returns a dictionary of metadata from a USGS site. The dictionary has 
-        the following keys
+        Returns a dictionary of metadata from a USGS site. If the metadata 
+        cannot be retrieved or there is an error code as a result of the request
+        to USGS, returns None.
+
+        The dictionary has the following keys
 
         - **agency_cd**: agency
         - **site_no**: site identification number
