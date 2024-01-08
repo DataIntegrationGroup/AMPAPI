@@ -13,7 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from routers.ngwmn.ngwmn_xml import lithology_xml, well_construction_xml, water_levels_xml2
+from routers.ngwmn.ngwmn_xml import (
+    lithology_xml,
+    well_construction_xml,
+    water_levels_xml2,
+)
 
 
 def make_xml_response(db, sql, point_id, func):
@@ -42,7 +46,6 @@ def make_waterlevels(point_id, db):
     sql2 = "select * from dbo.WaterLevelsContinuous_Pressure_Daily where PointID=:point_id and QCed=1"
 
     return make_xml_response(db, (sql, sql2), point_id, water_levels_xml2)
-
 
 
 # ============= EOF =============================================

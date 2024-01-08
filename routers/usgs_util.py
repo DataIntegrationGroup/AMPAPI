@@ -31,7 +31,7 @@ def get_site_metadata(location):
 
 
 def make_site_record(txt):
-    header = ''
+    header = ""
     for line in txt.split("\n"):
         if line.startswith("#"):
             continue
@@ -44,4 +44,6 @@ def make_site_record(txt):
             continue
 
         return dict(zip(header, [l.strip() for l in line.split("\t")]))
+
+
 # ============= EOF =============================================

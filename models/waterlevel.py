@@ -78,4 +78,6 @@ class WaterLevel(Base, MeasurementMixin):
             return self.lu_data_quality.Meaning
         except AttributeError:
             return ""
+
+
 # ============= EOF =============================================

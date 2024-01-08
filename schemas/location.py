@@ -125,4 +125,6 @@ class Well(ORMBaseModel):
     def round(cls, v):
         if v is not None:
             return round(v, 2)
+
+
 # ============= EOF =============================================

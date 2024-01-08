@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
+from sqlalchemy.sql.type_api import UserDefinedType
+
 from database import Base
 from sqlalchemy import (
     Column,
@@ -25,10 +27,24 @@ from sqlalchemy import (
     Date,
     Time,
     DateTime,
+    text,
 )
 from sqlalchemy.orm import relationship, declared_attr
 from fastapi_utils.guid_type import GUID
 from geo_utils import utm_to_latlon
+
+
+class Geometry(UserDefinedType):
+    def __init__(self, srid: int = 4326):
+        self.srid = srid
+
+    def get_col_spec(self):
+        return "GEOMETRY"
+
+    def bind_expression(self, bindvalue):
+        return text(
+            f"geometry::STGeomFromText(:{bindvalue.key},{self.srid})"
+        ).bindparams(bindvalue)
 
 
 class Location(Base):
@@ -38,6 +54,7 @@ class Location(Base):
     SiteID = Column(String(200))
     AlternateSiteID = Column(String(50))
     SiteNames = Column(String(255))
+    Geometry = Column(Geometry(srid=26913))
 
     PublicRelease = Column(Boolean)
     Easting = Column(Integer)
@@ -179,4 +196,6 @@ class WellPhotos(Base):
     GlobalID = Column(GUID, primary_key=True)
     PointID = Column(String(50))
     OLEPath = Column(String(255))
+
+
 # ============= EOF =============================================

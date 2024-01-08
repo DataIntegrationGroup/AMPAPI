@@ -22,24 +22,31 @@ from routers.ngwmn import make_waterlevels, make_wellconstruction, make_litholog
 router = APIRouter(prefix="/ngwmn", tags=["NGWMN"])
 
 
-@router.get("/waterlevels/{pointid}",
-            summary="Get waterlevels for a given pointid in the NGWMN format",)
+@router.get(
+    "/waterlevels/{pointid}",
+    summary="Get waterlevels for a given pointid in the NGWMN format",
+)
 async def read_ngwmn_waterlevels(pointid: str, db=Depends(get_db)):
     data = make_waterlevels(pointid, db)
     return Response(content=data, media_type="application/xml")
 
 
-@router.get("/wellconstruction/{pointid}",
-            summary="Get wellconstruction for a given pointid in the NGWMN format",)
+@router.get(
+    "/wellconstruction/{pointid}",
+    summary="Get wellconstruction for a given pointid in the NGWMN format",
+)
 async def read_ngwmn_wellconstruction(pointid: str, db=Depends(get_db)):
     data = make_wellconstruction(pointid, db)
     return Response(content=data, media_type="application/xml")
 
 
-@router.get("/lithology/{pointid}",
-            summary="Get lithology for a given pointid in the NGWMN format",)
+@router.get(
+    "/lithology/{pointid}",
+    summary="Get lithology for a given pointid in the NGWMN format",
+)
 async def read_ngwmn_lithology(pointid: str, db=Depends(get_db)):
     data = make_lithology(pointid, db)
     return Response(content=data, media_type="application/xml")
+
 
 # ============= EOF =============================================
