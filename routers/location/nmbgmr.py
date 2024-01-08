@@ -24,7 +24,12 @@ from starlette.status import HTTP_200_OK
 from dependencies import get_db
 from models.location import ProjectLocations, Location, Well, OwnersData, OwnerLink
 from routers import locations_feature_collection, AuthAPIRouter
-from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment
+from routers.crud import (
+    db_get_locations,
+    db_get_location,
+    db_get_photos,
+    db_get_equipment,
+)
 from auth import auth
 from schemas import location
 
@@ -81,11 +86,13 @@ def get_location_photos(pointid: str, db: Session = Depends(get_db)):
     return photo_records
 
 
-@router.get('/photo/{photoid}')
+@router.get("/photo/{photoid}")
 def get_location_photo(photoid: str):
     if photoid:
         path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"
         return FileResponse(path)
     else:
         return Response(status_code=HTTP_200_OK)
+
+
 # ============= EOF =============================================

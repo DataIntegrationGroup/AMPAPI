@@ -60,17 +60,20 @@ def db_get_equipment(db, pointid):
 
 
 class GeomFromText(GenericFunction):
-    name = quoted_name('geometry::STGeomFromText', False)
+    name = quoted_name("geometry::STGeomFromText", False)
 
 
-register_function('geomfromtext', GeomFromText)
+register_function("geomfromtext", GeomFromText)
 
 
-def db_get_locations(db, limit=None,
-                     wkt=None,
-                     collaborative_network=False,
-                     only_active=False,
-                     only_public=True):
+def db_get_locations(
+    db,
+    limit=None,
+    wkt=None,
+    collaborative_network=False,
+    only_active=False,
+    only_public=True,
+):
     q = db.query(location.Location, location.Well)
     q = q.join(location.Well)
     if collaborative_network:
@@ -88,8 +91,8 @@ def db_get_locations(db, limit=None,
         # wkt needs to be in UTM, and we are assuming its supplied in lat/lon
         o = shapely.wkt.loads(wkt)
         ncoords = [latlon_to_utm(*i) for i in o.exterior.coords]
-        ncoords = ','.join([f'{int(n)} {int(e)}' for n, e in ncoords])
-        wkt = f'Polygon (({ncoords}))'
+        ncoords = ",".join([f"{int(n)} {int(e)}" for n, e in ncoords])
+        wkt = f"Polygon (({ncoords}))"
 
         q = q.filter(func.Geometry.STWithin(func.geomfromtext(wkt, 26913)) == 1)
 
@@ -124,12 +127,18 @@ def db_get_photos(db, pointid):
 
 
 # waterchem =======================================================================
-MAJOR_CHEM_ANALYTES = ['Na', 'K', 'Ca']
+MAJOR_CHEM_ANALYTES = ["Na", "K", "Ca"]
 
 
-def db_get_analyte_measurements(db, pointid, analyte, only_public=True, minorandtrace=False):
+def db_get_analyte_measurements(
+    db, pointid, analyte, only_public=True, minorandtrace=False
+):
     if analyte is None:
-        table = waterchem.MajorChemistry if not minorandtrace else waterchem.MinorandTraceChemistry
+        table = (
+            waterchem.MajorChemistry
+            if not minorandtrace
+            else waterchem.MinorandTraceChemistry
+        )
     else:
         if analyte in MAJOR_CHEM_ANALYTES:
             table = waterchem.MajorChemistry
@@ -139,8 +148,11 @@ def db_get_analyte_measurements(db, pointid, analyte, only_public=True, minorand
     q = db.query(table)
 
     if only_public or pointid:
-        q = q.join(location.Location, func.substring(table.SamplePointID, 0, func.len(table.SamplePointID)) ==
-                   location.Location.PointID)
+        q = q.join(
+            location.Location,
+            func.substring(table.SamplePointID, 0, func.len(table.SamplePointID))
+            == location.Location.PointID,
+        )
 
     if only_public:
         q = public_release_filter(q)
@@ -157,6 +169,7 @@ def db_get_analyte_measurements(db, pointid, analyte, only_public=True, minorand
 
 # =================================================================================
 
+
 def waterlevels_manual_query(db, pointid, only_public=True):
     q = db.query(waterlevel.WaterLevel)
 
@@ -169,4 +182,6 @@ def waterlevels_manual_query(db, pointid, only_public=True):
     if only_public:
         q = public_release_filter(q)
     return q
+
+
 # ============= EOF =============================================

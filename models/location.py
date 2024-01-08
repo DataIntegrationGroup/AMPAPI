@@ -26,7 +26,8 @@ from sqlalchemy import (
     Numeric,
     Date,
     Time,
-    DateTime, text,
+    DateTime,
+    text,
 )
 from sqlalchemy.orm import relationship, declared_attr
 from fastapi_utils.guid_type import GUID
@@ -195,4 +196,6 @@ class WellPhotos(Base):
     GlobalID = Column(GUID, primary_key=True)
     PointID = Column(String(50))
     OLEPath = Column(String(255))
+
+
 # ============= EOF =============================================

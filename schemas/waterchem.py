@@ -41,4 +41,6 @@ class AnalyteMeasurements(ORMBaseModel):
     Notes: Union[str, None]
     Volume: Union[int, None]
     VolumeUnit: Union[str, None]
+
+
 # ============= EOF =============================================

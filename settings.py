@@ -30,7 +30,7 @@ class Settings:
     # POSTGRES_DB: str = os.getenv("POSTGRES_DB", "tdd")
     # DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
-    DESCRIPTION = ''
+    DESCRIPTION = ""
     TAGS = None
 
     """
@@ -41,7 +41,7 @@ class Settings:
     Z - patch version. backward compatible bug fixes. cosmetic changes
     """
 
-    VERSION = '0.4.0'
+    VERSION = "0.4.0"
     ALLOWED_HOSTS: list = ["*"]
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # in mins
@@ -79,23 +79,41 @@ class Settings:
                 f"mssql+pymssql://{user}:{password}@{host}/{database}"
             )
 
-        with open('./description.md') as rfile:
+        with open("./description.md") as rfile:
             self.DESCRIPTION = rfile.read()
 
-        self.TAGS = [{'name': 'public/locations', 'description': 'Publicly available locations'},
-                     {'name': 'public/waterlevels', 'description': 'Publicly available water levels'},
-                     {'name': 'public/waterchemistry', 'description': 'Publicly available water chemistry'},
-
-                     {'name': 'authorized/locations', 'description': 'Locations only accessible to NMBGMR Staff; '
-                                                                     '<b>authentication required</b>'},
-                     {'name': 'authorized/waterlevels', 'description': 'Water levels only accessible to NMBGMR Staff; '
-                                                                       '<b>authentication required</b>'},
-                     {'name': 'authorized/waterchemistry', 'description': 'Water chemistry only accessible to NMBGMR '
-                                                                          'Staff; '
-                                                                          '<b>authentication required</b>'},
-                     {'name': 'NGWMN', 'description': 'National Ground Water Monitoring Network. These endpoints are '
-                                                      'used by the NGWMN to access data from the NMBGMR'},
-                     ]
+        self.TAGS = [
+            {"name": "public/locations", "description": "Publicly available locations"},
+            {
+                "name": "public/waterlevels",
+                "description": "Publicly available water levels",
+            },
+            {
+                "name": "public/waterchemistry",
+                "description": "Publicly available water chemistry",
+            },
+            {
+                "name": "authorized/locations",
+                "description": "Locations only accessible to NMBGMR Staff; "
+                "<b>authentication required</b>",
+            },
+            {
+                "name": "authorized/waterlevels",
+                "description": "Water levels only accessible to NMBGMR Staff; "
+                "<b>authentication required</b>",
+            },
+            {
+                "name": "authorized/waterchemistry",
+                "description": "Water chemistry only accessible to NMBGMR "
+                "Staff; "
+                "<b>authentication required</b>",
+            },
+            {
+                "name": "NGWMN",
+                "description": "National Ground Water Monitoring Network. These endpoints are "
+                "used by the NGWMN to access data from the NMBGMR",
+            },
+        ]
 
 
 settings = Settings()

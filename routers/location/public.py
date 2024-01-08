@@ -26,36 +26,44 @@ from schemas import location
 router = APIRouter(prefix="/public/locations", tags=["public/locations"])
 
 
-@router.get("",
-            description='Get all publicly available locations',
-            response_model=location.LocationFeatureCollection)
+@router.get(
+    "",
+    description="Get all publicly available locations",
+    response_model=location.LocationFeatureCollection,
+)
 def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit, wkt=wkt)
     return locations_feature_collection(locations)
 
 
-@router.get('/collaborative_network',
-            summary='Get Collaborative Network Locations',
-            description='Get locations that are part of the collaborative network',
-            response_model=location.LocationFeatureCollection)
+@router.get(
+    "/collaborative_network",
+    summary="Get Collaborative Network Locations",
+    description="Get locations that are part of the collaborative network",
+    response_model=location.LocationFeatureCollection,
+)
 def get_collaborative_network(active: bool = True, db: Session = Depends(get_db)):
-    locations = db_get_locations(db, collaborative_network=True,
-                                 only_active=active,
-                                 )
+    locations = db_get_locations(
+        db,
+        collaborative_network=True,
+        only_active=active,
+    )
     return locations_feature_collection(locations)
 
 
-@router.get('/usgs/sitemetadata',
-            summary='Get USGS Site Metadata',
-            description='Get USGS site metadata from the NWIS service <a '
-                        'href="https://waterservices.usgs.gov/rest/Site-Service.html">https://waterservices.usgs.gov'
-                        '/rest/Site-Service.html</a>')
+@router.get(
+    "/usgs/sitemetadata",
+    summary="Get USGS Site Metadata",
+    description="Get USGS site metadata from the NWIS service <a "
+    'href="https://waterservices.usgs.gov/rest/Site-Service.html">https://waterservices.usgs.gov'
+    "/rest/Site-Service.html</a>",
+)
 def get_usgs_sitemetadata(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
     return usgs_util.get_site_metadata(loc)
 
 
-@router.get('/info', response_model=location.Location)
+@router.get("/info", response_model=location.Location)
 def get_location_info(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
     if loc is None:
@@ -64,13 +72,15 @@ def get_location_info(pointid: str, db: Session = Depends(get_db)):
     return loc
 
 
-@router.get('/well', response_model=location.Well)
+@router.get("/well", response_model=location.Well)
 def get_well(pointid: str, db: Session = Depends(get_db)):
     well = db_get_well(db, pointid)
     if well is None:
         well = Response(status_code=HTTP_200_OK)
 
     return well
+
+
 # helpers =======================================================================
 
 # ============= EOF =============================================

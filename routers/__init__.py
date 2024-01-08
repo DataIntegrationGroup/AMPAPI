@@ -39,15 +39,18 @@ def locations_feature_collection(locations):
 class AuthAPIRouter(APIRouter):
     def __init__(self, prefix=None, tags=None, *args, **kw):
         if prefix is None:
-            raise ValueError('prefix required')
+            raise ValueError("prefix required")
 
         if tags is None:
-            tags = [f'authorized/{prefix}']
+            tags = [f"authorized/{prefix}"]
 
         super(AuthAPIRouter, self).__init__(
-
-            prefix=f'/authorized/{prefix}',
+            prefix=f"/authorized/{prefix}",
             tags=tags,
             dependencies=[Depends(auth.authenticated())],
-            *args, **kw)
+            *args,
+            **kw,
+        )
+
+
 # ============= EOF =============================================
