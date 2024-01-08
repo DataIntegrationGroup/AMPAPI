@@ -35,7 +35,6 @@ from geo_utils import utm_to_latlon
 
 
 class Geometry(UserDefinedType):
-
     def __init__(self, srid: int = 4326):
         self.srid = srid
 
@@ -43,7 +42,9 @@ class Geometry(UserDefinedType):
         return "GEOMETRY"
 
     def bind_expression(self, bindvalue):
-        return text(f'geometry::STGeomFromText(:{bindvalue.key},{self.srid})').bindparams(bindvalue)
+        return text(
+            f"geometry::STGeomFromText(:{bindvalue.key},{self.srid})"
+        ).bindparams(bindvalue)
 
 
 class Location(Base):
