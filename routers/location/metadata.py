@@ -144,12 +144,12 @@ Well schema for the keys.
 
 class NMBGMRSummary():
     def __init__(self):
-        self.all = "Get all NMBGMR and publicly available well locations as geojsons-formatted dictionaries"
-        self.equipment = "Get information on equipment used at an NMBGMR location as a list of Equipment objects"
+        self.all = "Get all NMBGMR and publicly available locations"
+        self.equipment = "Get information on equipment used at an NMBGMR location"
         self.notes = "Get the notes from an NMBGMR location"
-        self.projects = "Get the projects associated with an NMBGMR location as a list"
+        self.projects = "Get the projects associated with an NMBGMR location"
         self.owners = "Get the owners of an NMBGMR well location"
-        self.photos = "Get the photos associated with an NMBGMR well location as a list of WellPhoto objects"
+        self.photos = "Get the photos associated with an NMBGMR well location"
         self.photo_photoid = "Get a specific photo from an NMBGMR well location"
 
 class NMBGMRDescription(object):
