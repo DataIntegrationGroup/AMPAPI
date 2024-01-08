@@ -16,17 +16,6 @@ Manual measurements are taken by field staff typically using a steel tape.
 ### Continuous Measurements
 Continuous measurements are taken by either a pressure transducer or acoustic transponder.
 
-## Private vs. Public
-Some of the data collected by NMBGMR is private and requires appropriate privileges and authentication for access. The following endpoints require such authentication:
-
-- **/locations**
-- **/locations/equipment**
-- **/locations/notes**
-- **/locations/projects**
-- **/locations/owners**
-- **/locations/photos**
-- **/locations/photo/{photoid}**
-
 ## IDs & Keys
 There are two types of IDs that are commonly used throughout the database that can be used to query objects, as well as to relate data to each other. They are:
 
@@ -55,3 +44,13 @@ IDs apart from PointID and LocationId exist to query tables. These are as follow
 - Well.**OSEWelLTagID**
 - WellPhoto.**GlobalID**: the primary key for a WellPhoto object
 
+## Private Endpoints
+Some of the data collected by NMBGMR is private and requires appropriate privileges and authentication for access. The following endpoints require such authentication:
+
+- **/locations**
+- **/locations/equipment**
+- **/locations/notes**
+- **/locations/projects**
+- **/locations/owners**
+- **/locations/photos**
+- **/locations/photo/{photoid}**
