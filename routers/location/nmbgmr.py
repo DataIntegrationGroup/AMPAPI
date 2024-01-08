@@ -23,13 +23,12 @@ from starlette.status import HTTP_200_OK
 
 from dependencies import get_db
 from models.location import ProjectLocations, Location, Well, OwnersData, OwnerLink
-from routers import locations_feature_collection
+from routers import locations_feature_collection, AuthAPIRouter
 from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment
 from auth import auth
 from schemas import location
 
-router = APIRouter(prefix="/authorized/locations", tags=["authorized/locations"],
-                   dependencies=[Depends(auth.authenticated())])
+router = AuthAPIRouter(prefix="locations")
 
 
 @router.get("")

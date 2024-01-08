@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
+from fastapi import APIRouter, Depends
+
+from auth import auth
+
 
 def locations_feature_collection(locations):
     def togeojson(l, w):
@@ -30,4 +34,20 @@ def locations_feature_collection(locations):
     }
 
     return content
+
+
+class AuthAPIRouter(APIRouter):
+    def __init__(self, prefix=None, tags=None, *args, **kw):
+        if prefix is None:
+            raise ValueError('prefix required')
+
+        if tags is None:
+            tags = [f'authorized/{prefix}']
+
+        super(AuthAPIRouter, self).__init__(
+
+            prefix=f'/authorized/{prefix}',
+            tags=tags,
+            dependencies=[Depends(auth.authenticated())],
+            *args, **kw)
 # ============= EOF =============================================
