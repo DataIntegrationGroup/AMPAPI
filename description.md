@@ -35,7 +35,7 @@ LocationId is used as the primary key of a Location. It can also be used to rela
 ### Other IDs
 IDs apart from PointID and LocationId exist to query tables. These are as follows:
 
-- Location.**SiteID**: used to associate a Location with USGS data
+- Location.**SiteID**: used to associate a Location with a USGS site
 - Location.**AlternateSideID**
 - ProjectLocations.**GlobalID**: the primary key for a ProjectLocations object
 - OwnersData.**OwnerKey**: the primary key for an OwnersData object
