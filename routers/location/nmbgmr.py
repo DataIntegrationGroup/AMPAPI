@@ -31,9 +31,9 @@ from schemas import location
 router = AuthAPIRouter(prefix="locations")
 
 
-@router.get("")
-def get_locations(db: Session = Depends(get_db)):
-    locations = db_get_locations(db, only_public=False)
+@router.get("", response_model=location.LocationFeatureCollection)
+def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
+    locations = db_get_locations(db, limit=limit, wkt=wkt, only_public=False)
     return locations_feature_collection(locations)
 
 
