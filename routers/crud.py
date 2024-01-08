@@ -128,7 +128,7 @@ def db_get_analyte_measurements(db, pointid, analyte, only_public=True, minorand
     if analyte:
         q = q.filter(table.Analyte == analyte)
 
-    q = q.limit(10)
+    # q = q.limit(10)
     return q.all()
 
 

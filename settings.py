@@ -84,15 +84,19 @@ class Settings:
 
         self.TAGS = [{'name': 'public/locations', 'description': 'Publicly available locations'},
                      {'name': 'public/waterlevels', 'description': 'Publicly available water levels'},
+                     {'name': 'public/waterchemistry', 'description': 'Publicly available water chemistry'},
 
-                     {'name': 'locations', 'description': 'Locations only accessible to NMBGMR Staff; '
-                                                          '<b>authentication required</b>'},
-                     {'name': 'waterlevels', 'description': 'Water levels only accessible to NMBGMR Staff; '
-                                                            '<b>authentication required</b>'},
-
+                     {'name': 'authorized/locations', 'description': 'Locations only accessible to NMBGMR Staff; '
+                                                                     '<b>authentication required</b>'},
+                     {'name': 'authorized/waterlevels', 'description': 'Water levels only accessible to NMBGMR Staff; '
+                                                                       '<b>authentication required</b>'},
+                     {'name': 'authorized/waterchemistry', 'description': 'Water chemistry only accessible to NMBGMR '
+                                                                          'Staff; '
+                                                                          '<b>authentication required</b>'},
                      {'name': 'NGWMN', 'description': 'National Ground Water Monitoring Network. These endpoints are '
                                                       'used by the NGWMN to access data from the NMBGMR'},
                      ]
+
 
 settings = Settings()
 # ============= EOF =============================================

@@ -28,7 +28,7 @@ from routers.crud import db_get_locations, db_get_location, db_get_photos, db_ge
 from auth import auth
 from schemas import location
 
-router = APIRouter(prefix="/locations", tags=["locations"],
+router = APIRouter(prefix="/authorized/locations", tags=["authorized/locations"],
                    dependencies=[Depends(auth.authenticated())])
 
 

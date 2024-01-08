@@ -28,7 +28,7 @@ from routers.crud import db_get_locations, db_get_location, db_get_photos, db_ge
 from auth import auth
 from schemas import location, waterchem
 
-router = APIRouter(prefix="/waterchemistry", tags=["waterchemistry"],
+router = APIRouter(prefix="/authorized/waterchemistry", tags=["authorized/waterchemistry"],
                    dependencies=[Depends(auth.authenticated())])
 
 
