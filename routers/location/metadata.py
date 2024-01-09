@@ -15,7 +15,7 @@ class PublicDescription():
 
     def __init__(self):
         self.all = """
-Returns data on all locations as a collection of
+Returns data on all public locations as a collection of
 <a href="https://geojson.org/" target="_blank">GeoJSONs</a> stored in an array: 
 
 ```        
@@ -156,96 +156,65 @@ class NMBGMRDescription(object):
 
     def __init__(self):
         self.all = """
-        Returns a JSON that contains a list of features. Each feature is a 
-        dictionary that is formatted as a geojson. The JSON is structured as 
-        follows
+Returns data on all NMBGMR and public locations as a collection of
+<a href="https://geojson.org/" target="_blank">GeoJSONs</a> stored in an array: 
 
-        {
-            "features": [<geojson-formatted dictionaries>]
-        }  
+```        
+{
+    "type": "FeatureCollection:
+    "features": [<Location GeoJSON>...]
+}
+```
 
-        Each geojson-formatted dictionary is formatted as follows:
+Each Location GeoJSON is formatted as follows:
 
-        {
-            "type": "Feature",
-            "properties": "{
-                "name": <PointID>,
-                "well_depth": {"value": <well depth>, "units": "ft"}
-            },
-            "geometry": {
-                "coordinates": [<longitude>, <latitude>, <elevation or 0>],
-                "type": "Point
-            }
-        }
-        """
+```
+{
+    "type": "Feature",
+    "properties": "{
+        "name": <PointID>,
+        "well_depth": {"value": <well depth>, "units": "ft"}
+    },
+    "geometry": {
+        "coordinates": [<longitude>, <latitude>, <elevation or 0>],
+        "type": "Point
+    }
+}
+```
+"""
 
         self.equipment = """
-        Returns a list of equipment used at location (specified by its PointID),
-        ordered by the date the equipment was installed. Each Equipment object
-        has the following attributes:
-
-        - **ID**: the primary key
-        - **PointID**:
-        - **LocationID**: the foreign key to join with the Location table
-        - **EquipmentType**: the type of equipment used
-        - **Model**: the model of the equiment used
-        - **SerialNo**: the serial number of the equipment used
-        - **DateInstalled**: the date the equipment was installed
-        - **DateRemoved**: the date the equipment was removed, if it was removed
-        """
+Returns a list of JSONs that describe the equipment used at location (as 
+specified by its **PointID**). The list of equipment is ordered by the date they
+were installed. See the Equipment schema for the keys of the JSONs in the list.
+"""
 
         self.notes = """
-        Returns the notes taken for a particular location. Returns an empty
-        string if there are no notes.
-        """
+Returns the notes taken for a particular location as a string. Returns an empty
+string if there are no notes.
+"""
 
         self.projects = """
-        Returns a list of projects for a given PointID. Each
-        ProjectLocations object has the following attributes:
-
-        - **GlobalID**: the primary key
-        - **LocationID**: the foreign key to join with the Location table
-        - **PointID**:
-        - **ProjectName**: the name of each project
-        """
+Returns a list of JSONs that describe the projects for a give location (as
+specified by its **PointID**). See the ProjectLocations schema for the keys of
+the JSONs in the list. 
+"""
 
         self.owners = """
-        Returns the owner of a well. Returns an empty dictionary if there is no
-        owner. Each OwnersData object has the following attributes:
-
-        - **FirstName**: the first name of the owner
-        - **LatName**: the last name of the owner
-        - **OwnerKey**: the primary key
-        - **Email**: the email address of the owner
-        - **CellPhone**: the cellphone number of the owner
-        - **Phone**: the phone number of the owner
-        - **MailAddress**: street number and name for the mailing address of the owner
-        - **MailCity**: city for the mailing address of the owner
-        - **MailState**: state for the mailing address of the owner
-        - **MailZipCode**: zip code for the mailing address of the owner
-        - **PhysicalAddress**: street number and name for the physical address of the owner
-        - **PhysicalCity**: city for the physical address of the owner
-        - **PhysicalState**: state for the physical address of the owner
-        - **PhysicalZipCode**: zip code fo the physical address of the owner
-        - **SecondLastName**: the second last name of the owner if it exists
-        - **SecondFirstName**: the second first name of the owner if it exists
-        - **SecondCtctEmail**: the second email address of the owner if it exists
-        - **SecondCtctPhone**: the second phone number of the owner if it exists
-        """
+Returns a JSON that describes the owner of a well (as specified by its
+**PointsID**). Returns an empty JSON if the data is not available. See the
+OwnersData schema for the keys of the JSON. 
+"""
 
         self.photos = """
-        Returns a list of photo information for all photos 
-        associated with a location. Each WellPhoto object has the following
-        attributes:
-
-        - **GlobalUD**: the primary key
-        - **PointID**: 
-        - **OLEPath**: the path to photo
-        """
+Returns a list of JSONs that contain information on all photos taken at and for
+a Location (as specified by its **PointsID**). See the WellPhoto schema for the
+keys of the JSONs.
+"""
 
         self.photo_photoid = """
-        Returns the file of a specific photo.
-        """
+Returns the file of a specific photo.
+"""
 
 
 # ==============================================================================
