@@ -22,22 +22,34 @@ from starlette.status import HTTP_200_OK
 
 from dependencies import get_db
 from routers import locations_feature_collection, usgs_util
-from routers.crud import db_get_locations, db_get_location, db_get_well, db_get_analyte_measurements
+from routers.crud import (
+    db_get_locations,
+    db_get_location,
+    db_get_well,
+    db_get_analyte_measurements,
+)
 from schemas import location, waterchem
 
 router = APIRouter(prefix="/public/waterchemistry", tags=["public/waterchemistry"])
 
 
 @router.get("/major", response_model=List[waterchem.AnalyteMeasurements])
-def get_major_waterchemistry(pointid: str=None, analyte: str=None, db: Session = Depends(get_db)):
-    """ get all measurements for this analyte at this location """
+def get_major_waterchemistry(
+    pointid: str = None, analyte: str = None, db: Session = Depends(get_db)
+):
+    """get all measurements for this analyte at this location"""
     ms = db_get_analyte_measurements(db, pointid, analyte, only_public=True)
     return ms
 
+
 @router.get("/minorandtrace", response_model=List[waterchem.AnalyteMeasurements])
-def get_minorandtrace_waterchemistry(pointid: str=None, analyte: str=None, db: Session = Depends(get_db)):
-    """ get all measurements for this analyte at this location """
-    ms = db_get_analyte_measurements(db, pointid, analyte, only_public=True, minorandtrace=True)
+def get_minorandtrace_waterchemistry(
+    pointid: str = None, analyte: str = None, db: Session = Depends(get_db)
+):
+    """get all measurements for this analyte at this location"""
+    ms = db_get_analyte_measurements(
+        db, pointid, analyte, only_public=True, minorandtrace=True
+    )
     return ms
 
 

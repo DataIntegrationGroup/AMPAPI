@@ -23,20 +23,26 @@ from starlette.status import HTTP_200_OK
 
 from dependencies import get_db
 from models.location import ProjectLocations, Location, Well, OwnersData, OwnerLink
-from routers import locations_feature_collection
-from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment, db_get_analyte_measurements
+from routers import locations_feature_collection, AuthAPIRouter
+from routers.crud import (
+    db_get_locations,
+    db_get_location,
+    db_get_photos,
+    db_get_equipment,
+    db_get_analyte_measurements,
+)
 from auth import auth
 from schemas import location, waterchem
 
-router = APIRouter(prefix="/waterchemistry", tags=["waterchemistry"],
-                   dependencies=[Depends(auth.authenticated())])
+router = AuthAPIRouter(prefix="waterchemistry")
 
 
 @router.get("", response_model=waterchem.AnalyteMeasurements)
 def get_major_waterchemistry(pointid: str, analyte: str, db: Session = Depends(get_db)):
-    """ get all measurements for this analyte at this location """
+    """get all measurements for this analyte at this location"""
     ms = db_get_analyte_measurements(db, pointid, analyte, only_public=False)
     return
+
 
 #     locations = db_get_locations(db, only_public=False)
 #     return locations_feature_collection(locations)

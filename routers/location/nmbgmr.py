@@ -23,21 +23,23 @@ from starlette.status import HTTP_200_OK
 
 from dependencies import get_db
 from models.location import ProjectLocations, Location, Well, OwnersData, OwnerLink
-from routers import locations_feature_collection
-from routers.crud import db_get_locations, db_get_location, db_get_photos, db_get_equipment
+from routers import locations_feature_collection, AuthAPIRouter
+from routers.crud import (
+    db_get_locations,
+    db_get_location,
+    db_get_photos,
+    db_get_equipment,
+)
 from auth import auth
 from schemas import location
 from routers.location.metadata import nmbgmrd_summary, nmbgmrd_description
 
-router = APIRouter(prefix="/locations", tags=["locations"],
-                   dependencies=[Depends(auth.authenticated())])
+router = AuthAPIRouter(prefix="locations")
 
 
-@router.get("",
-            summary = nmbgmrd_summary.all,
-            description = nmbgmrd_description.all)
-def get_locations(db: Session = Depends(get_db)):
-    locations = db_get_locations(db, only_public=False)
+@router.get("", response_model=location.LocationFeatureCollection)
+def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
+    locations = db_get_locations(db, limit=limit, wkt=wkt, only_public=False)
     return locations_feature_collection(locations)
 
 
@@ -99,13 +101,13 @@ def get_location_photos(pointid: str, db: Session = Depends(get_db)):
     return photo_records
 
 
-@router.get('/photo/{photoid}',
-            summary = nmbgmrd_summary.photo_photoid,
-            description = nmbgmrd_description.photo_photoid)
+@router.get("/photo/{photoid}")
 def get_location_photo(photoid: str):
     if photoid:
         path = f"/mnt/wellphotos/Digital photos_wells/{photoid}"
         return FileResponse(path)
     else:
         return Response(status_code=HTTP_200_OK)
+
+
 # ============= EOF =============================================

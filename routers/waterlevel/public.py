@@ -39,4 +39,5 @@ def get_waterlevels_manual(pointid: str = None, db: Session = Depends(get_db)):
     q = waterlevels_manual_query(db, pointid)
     return paginate(q)
 
+
 # ============= EOF =============================================

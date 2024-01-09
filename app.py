@@ -19,21 +19,24 @@ from starlette.middleware.cors import CORSMiddleware
 from settings import settings
 
 
-app = FastAPI(title='New Mexico Bureau of Geology and Mineral Resources Aquifer Mapping Program API',
-              version=settings.VERSION,
-              docs_url='/',
-              redoc_url='/redoc',
-              openapi_url='/openapi.json',
-              description=settings.DESCRIPTION,
-              contact={
-                  "name": "Stacy Timmons",
-                  "url": "https://geoinfo.nmt.edu/staff/detail.cfml?name=stimmons",
-                  "email": "stacy.timmons@nmt.edu"},
-              license_info={
-                  "name": "Apache 2.0",
-                  "url": "https://www.apache.org/licenses/LICENSE-2.0.html"},
-              openapi_tags=settings.TAGS,
-              )
+app = FastAPI(
+    title="New Mexico Bureau of Geology and Mineral Resources Aquifer Mapping Program API",
+    version=settings.VERSION,
+    docs_url="/",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+    description=settings.DESCRIPTION,
+    contact={
+        "name": "Stacy Timmons",
+        "url": "https://geoinfo.nmt.edu/staff/detail.cfml?name=stimmons",
+        "email": "stacy.timmons@nmt.edu",
+    },
+    license_info={
+        "name": "Apache 2.0",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+    },
+    openapi_tags=settings.TAGS,
+)
 
 app.add_middleware(
     CORSMiddleware,

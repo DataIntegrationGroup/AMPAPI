@@ -31,6 +31,7 @@ class WaterLevels(ORMBaseModel):
     MeasuringAgency: Union[str, None] = Field(..., alias="measuring_agency")
     DataSource: Union[str, None] = Field(..., alias="data_source")
 
+
 # class WaterLevelsContinuous_Pressure(Measurement):
 #     DepthToWaterBGS: Union[float, None] = Field(..., alias="depth_to_water_ftbgs")
 #     DateMeasured: Union[datetime, None] = Field(..., alias="measurement_datetime")

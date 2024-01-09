@@ -49,4 +49,5 @@ class MajorChemistry(Base, BaseChemistryMixin):
 class MinorandTraceChemistry(Base, BaseChemistryMixin):
     __tablename__ = "MinorandTraceChemistry"
 
+
 # ============= EOF =============================================
