@@ -94,4 +94,5 @@ def get_location_photo(photoid: str):
     else:
         return Response(status_code=HTTP_200_OK)
 
+
 # ============= EOF =============================================

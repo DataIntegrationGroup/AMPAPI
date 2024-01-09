@@ -24,10 +24,15 @@ from sqlalchemy.orm import Session
 
 from dependencies import get_db
 from routers import AuthAPIRouter
-from routers.crud import waterlevels_manual_query, waterlevels_continuous_query, waterlevels_query
+from routers.crud import (
+    waterlevels_manual_query,
+    waterlevels_continuous_query,
+    waterlevels_query,
+)
 from schemas import waterlevel
 
 router = AuthAPIRouter(prefix="waterlevels")
+
 
 @router.get("/", response_model=Page[waterlevel.WaterLevels])
 @router.get(

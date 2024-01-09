@@ -24,7 +24,7 @@ from schemas import ORMBaseModel
 
 class WaterLevels(ORMBaseModel):
     DepthToWaterBGS: Union[float, None] = None
-    DepthToWaterBGSUnits = 'feet'
+    DepthToWaterBGSUnits = "feet"
     DateMeasured: Union[date, None] = None
     TimeMeasured: Union[time, None] = None
     LevelStatus: Union[str, None] = None
@@ -36,5 +36,6 @@ class WaterLevels(ORMBaseModel):
     @validator("DepthToWaterBGS")
     def validate_depth_to_water(cls, v):
         return round(v, 2)
+
 
 # ============= EOF =============================================

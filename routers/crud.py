@@ -69,12 +69,12 @@ register_function("geomfromtext", GeomFromText)
 
 
 def db_get_locations(
-        db,
-        limit=None,
-        wkt=None,
-        collaborative_network=False,
-        only_active=False,
-        only_public=True,
+    db,
+    limit=None,
+    wkt=None,
+    collaborative_network=False,
+    only_active=False,
+    only_public=True,
 ):
     q = db.query(location.Location, location.Well)
     q = q.join(location.Well)
@@ -133,7 +133,7 @@ MAJOR_CHEM_ANALYTES = ["Na", "K", "Ca"]
 
 
 def db_get_analyte_measurements(
-        db, pointid, analyte, only_public=True, minorandtrace=False
+    db, pointid, analyte, only_public=True, minorandtrace=False
 ):
     if analyte is None:
         table = (
@@ -181,9 +181,15 @@ def waterlevels_query(db, pointid, only_public=True):
 def waterlevels_continuous_query(db, pointid, only_public=True):
     # return a union of both acoustic and pressure waterlevels for this pointid
     # sort by date
-    acoustic = _waterlevels_continuous_query(db, pointid, only_public, waterlevel.WaterLevelsContinuous_Acoustic)
-    pressure = _waterlevels_continuous_query(db, pointid, only_public, waterlevel.WaterLevelsContinuous_Pressure)
-    return acoustic.union(pressure).order_by(waterlevel.WaterLevelsContinuous_Acoustic.DateMeasured)
+    acoustic = _waterlevels_continuous_query(
+        db, pointid, only_public, waterlevel.WaterLevelsContinuous_Acoustic
+    )
+    pressure = _waterlevels_continuous_query(
+        db, pointid, only_public, waterlevel.WaterLevelsContinuous_Pressure
+    )
+    return acoustic.union(pressure).order_by(
+        waterlevel.WaterLevelsContinuous_Acoustic.DateMeasured
+    )
 
 
 def waterlevels_manual_query(db, pointid, only_public=True):
@@ -192,15 +198,16 @@ def waterlevels_manual_query(db, pointid, only_public=True):
 
 # private water levels helpers =====================================================
 def _waterlevels_continuous_query(db, pointid, only_public, table):
-    q = db.query(table.DateMeasured,
-                 cast(table.DateMeasured, Time).label("TimeMeasured"),
-                 table.DepthToWaterBGS,
-                 table.MeasuringAgency,
-                 null().label("LevelStatus"),
-                 null().label("DataQuality"),
-                 models.LU_DataSource.Meaning.label("DataSource"),
-                 models.LU_MeasurementMethod.Meaning.label("MeasurementMethod"),
-                 )
+    q = db.query(
+        table.DateMeasured,
+        cast(table.DateMeasured, Time).label("TimeMeasured"),
+        table.DepthToWaterBGS,
+        table.MeasuringAgency,
+        null().label("LevelStatus"),
+        null().label("DataQuality"),
+        models.LU_DataSource.Meaning.label("DataSource"),
+        models.LU_MeasurementMethod.Meaning.label("MeasurementMethod"),
+    )
 
     q = q.outerjoin(models.LU_DataSource)
     q = q.outerjoin(models.LU_MeasurementMethod)
@@ -208,15 +215,16 @@ def _waterlevels_continuous_query(db, pointid, only_public, table):
 
 
 def _waterlevels_manual_query(db, pointid, only_public, table):
-    q = db.query(table.DateMeasured,
-                 table.TimeMeasured,
-                 table.DepthToWaterBGS,
-                 table.MeasuringAgency,
-                 models.LU_LevelStatus.Meaning.label("LevelStatus"),
-                 models.LU_DataQuality.Meaning.label("DataQuality"),
-                 models.LU_DataSource.Meaning.label("DataSource"),
-                 models.LU_MeasurementMethod.Meaning.label("MeasurementMethod"),
-                 )
+    q = db.query(
+        table.DateMeasured,
+        table.TimeMeasured,
+        table.DepthToWaterBGS,
+        table.MeasuringAgency,
+        models.LU_LevelStatus.Meaning.label("LevelStatus"),
+        models.LU_DataQuality.Meaning.label("DataQuality"),
+        models.LU_DataSource.Meaning.label("DataSource"),
+        models.LU_MeasurementMethod.Meaning.label("MeasurementMethod"),
+    )
     q = q.outerjoin(models.LU_LevelStatus)
     q = q.outerjoin(models.LU_DataQuality)
     q = q.outerjoin(models.LU_DataSource)
@@ -234,5 +242,6 @@ def _waterlevels_query(q, pointid, only_public, table):
     if only_public:
         q = public_release_filter(q)
     return q
+
 
 # ============= EOF =============================================

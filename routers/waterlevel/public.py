@@ -23,7 +23,11 @@ from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
 from dependencies import get_db
-from routers.crud import waterlevels_manual_query, waterlevels_continuous_query, waterlevels_query
+from routers.crud import (
+    waterlevels_manual_query,
+    waterlevels_continuous_query,
+    waterlevels_query,
+)
 from schemas import waterlevel
 from app import Page
 
