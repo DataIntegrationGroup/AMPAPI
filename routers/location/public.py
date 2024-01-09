@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette.responses import Response
 from starlette.status import HTTP_200_OK
@@ -33,6 +33,9 @@ router = APIRouter(prefix="/public/locations", tags=["public/locations"])
             response_model=location.LocationFeatureCollection)
 def get_locations(limit: int = 10, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit)
+    if len(locations) == 0:
+        raise HTTPException(status_code=404,
+                            detail="No locations were found")
     return locations_feature_collection(locations)
 
 
@@ -42,8 +45,10 @@ def get_locations(limit: int = 10, db: Session = Depends(get_db)):
             response_model=location.LocationFeatureCollection)
 def get_collaborative_network(active: bool = True, db: Session = Depends(get_db)):
     locations = db_get_locations(db, collaborative_network=True,
-                                 only_active=active,
-                                 )
+                                 only_active=active)
+    if len(locations) == 0:
+        raise HTTPException(status_code=404,
+                            detail="No Healy Collaborative Locations were found")
     return locations_feature_collection(locations)
 
 
@@ -62,7 +67,9 @@ def get_usgs_sitemetadata(pointid: str, db: Session = Depends(get_db)):
 def get_location_info(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
     if loc is None:
-        loc = Response(status_code=HTTP_200_OK)
+        raise HTTPException(status_code=404,
+                            detail=f"Location with Poind ID {pointid} was not found")
+        #loc = Response(status_code=HTTP_200_OK)
 
     return loc
 
