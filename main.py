@@ -36,5 +36,4 @@ app.include_router(public_ngwmn_router)
 app.include_router(public_waterchemistry_router)
 
 
-add_pagination(app)
 # ============= EOF =============================================

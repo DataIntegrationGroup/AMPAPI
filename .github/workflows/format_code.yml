@@ -1,7 +1,5 @@
 name: Format code
 on:
-  pull_request:
-    branches: [dev/jir]
   push:
     branches: [dev/jir]
 jobs:

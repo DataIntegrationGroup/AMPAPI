@@ -17,27 +17,24 @@
 from datetime import date, time, datetime
 from typing import Union
 
-from pydantic import Field
+from pydantic import Field, validator
 
 from schemas import ORMBaseModel
 
 
 class WaterLevels(ORMBaseModel):
-    DepthToWaterBGS: Union[float, None] = Field(..., alias="depth_to_water_ftbgs")
-    DateMeasured: Union[date, None] = Field(..., alias="measurement_date")
-    TimeMeasured: Union[time, None] = Field(..., alias="measurement_time")
-    LevelStatus: Union[str, None] = Field(..., alias="level_status")
-    DataQuality: Union[str, None] = Field(..., alias="data_quality")
-    MeasuringAgency: Union[str, None] = Field(..., alias="measuring_agency")
-    DataSource: Union[str, None] = Field(..., alias="data_source")
+    DepthToWaterBGS: Union[float, None] = None
+    DepthToWaterBGSUnits = 'feet'
+    DateMeasured: Union[date, None] = None
+    TimeMeasured: Union[time, None] = None
+    LevelStatus: Union[str, None] = None
+    DataQuality: Union[str, None] = None
+    MeasuringAgency: Union[str, None] = None
+    DataSource: Union[str, None] = None
+    MeasurementMethod: Union[str, None] = None
 
+    @validator("DepthToWaterBGS")
+    def validate_depth_to_water(cls, v):
+        return round(v, 2)
 
-# class WaterLevelsContinuous_Pressure(Measurement):
-#     DepthToWaterBGS: Union[float, None] = Field(..., alias="depth_to_water_ftbgs")
-#     DateMeasured: Union[datetime, None] = Field(..., alias="measurement_datetime")
-#
-#
-# class WaterLevelsContinuous_Acoustic(Measurement):
-#     DepthToWaterBGS: Union[float, None] = Field(..., alias="depth_to_water_ftbgs")
-#     DateMeasured: Union[datetime, None] = Field(..., alias="measurement_datetime")
 # ============= EOF =============================================

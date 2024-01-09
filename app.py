@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===============================================================================
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from fastapi_pagination import add_pagination, Page
 from starlette.middleware.cors import CORSMiddleware
 
 from settings import settings
@@ -45,5 +46,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+Page = Page.with_custom_options(
+    size=Query(100, ge=1, le=1000),
+)
+
+add_pagination(app)
+
 
 # ============= EOF =============================================

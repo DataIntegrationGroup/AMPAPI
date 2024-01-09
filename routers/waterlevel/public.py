@@ -17,16 +17,28 @@
 import csv
 import io
 from datetime import datetime
-from fastapi_pagination import Page, LimitOffsetPage
+from fastapi_pagination import LimitOffsetPage
 from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi import Depends, APIRouter
 from sqlalchemy.orm import Session
 
 from dependencies import get_db
-from routers.crud import waterlevels_manual_query
+from routers.crud import waterlevels_manual_query, waterlevels_continuous_query, waterlevels_query
 from schemas import waterlevel
+from app import Page
 
 router = APIRouter(prefix="/public/waterlevels", tags=["public/waterlevels"])
+
+
+@router.get("/", response_model=Page[waterlevel.WaterLevels])
+@router.get(
+    "/limit-offset",
+    response_model=LimitOffsetPage[waterlevel.WaterLevels],
+    include_in_schema=False,
+)
+def get_waterlevels(pointid: str = None, db: Session = Depends(get_db)):
+    q = waterlevels_query(db, pointid)
+    return paginate(q)
 
 
 @router.get("/manual", response_model=Page[waterlevel.WaterLevels])
@@ -37,6 +49,17 @@ router = APIRouter(prefix="/public/waterlevels", tags=["public/waterlevels"])
 )
 def get_waterlevels_manual(pointid: str = None, db: Session = Depends(get_db)):
     q = waterlevels_manual_query(db, pointid)
+    return paginate(q)
+
+
+@router.get("/continuous", response_model=Page[waterlevel.WaterLevels])
+@router.get(
+    "/continuous/limit-offset",
+    response_model=LimitOffsetPage[waterlevel.WaterLevels],
+    include_in_schema=False,
+)
+def get_waterlevels_continuous(pointid: str = None, db: Session = Depends(get_db)):
+    q = waterlevels_continuous_query(db, pointid)
     return paginate(q)
 
 

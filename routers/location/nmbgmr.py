@@ -37,7 +37,7 @@ router = AuthAPIRouter(prefix="locations")
 
 
 @router.get("", response_model=location.LocationFeatureCollection)
-def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
+def get_locations(limit: int = None, wkt: str = None, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit, wkt=wkt, only_public=False)
     return locations_feature_collection(locations)
 
@@ -93,6 +93,5 @@ def get_location_photo(photoid: str):
         return FileResponse(path)
     else:
         return Response(status_code=HTTP_200_OK)
-
 
 # ============= EOF =============================================

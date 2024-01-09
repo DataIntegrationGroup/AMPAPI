@@ -31,7 +31,7 @@ router = APIRouter(prefix="/public/locations", tags=["public/locations"])
     description="Get all publicly available locations",
     response_model=location.LocationFeatureCollection,
 )
-def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
+def get_locations(limit: int = None, wkt: str = None, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit, wkt=wkt)
     return locations_feature_collection(locations)
 
@@ -55,8 +55,8 @@ def get_collaborative_network(active: bool = True, db: Session = Depends(get_db)
     "/usgs/sitemetadata",
     summary="Get USGS Site Metadata",
     description="Get USGS site metadata from the NWIS service <a "
-    'href="https://waterservices.usgs.gov/rest/Site-Service.html">https://waterservices.usgs.gov'
-    "/rest/Site-Service.html</a>",
+                'href="https://waterservices.usgs.gov/rest/Site-Service.html">https://waterservices.usgs.gov'
+                "/rest/Site-Service.html</a>",
 )
 def get_usgs_sitemetadata(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
@@ -79,7 +79,6 @@ def get_well(pointid: str, db: Session = Depends(get_db)):
         well = Response(status_code=HTTP_200_OK)
 
     return well
-
 
 # helpers =======================================================================
 

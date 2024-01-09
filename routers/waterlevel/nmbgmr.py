@@ -24,10 +24,20 @@ from sqlalchemy.orm import Session
 
 from dependencies import get_db
 from routers import AuthAPIRouter
-from routers.crud import waterlevels_manual_query
+from routers.crud import waterlevels_manual_query, waterlevels_continuous_query, waterlevels_query
 from schemas import waterlevel
 
 router = AuthAPIRouter(prefix="waterlevels")
+
+@router.get("/", response_model=Page[waterlevel.WaterLevels])
+@router.get(
+    "/limit-offset",
+    response_model=LimitOffsetPage[waterlevel.WaterLevels],
+    include_in_schema=False,
+)
+def get_waterlevels(pointid: str = None, db: Session = Depends(get_db)):
+    q = waterlevels_query(db, pointid, only_public=False)
+    return paginate(q)
 
 
 @router.get("/manual", response_model=Page[waterlevel.WaterLevels])
@@ -37,7 +47,18 @@ router = AuthAPIRouter(prefix="waterlevels")
     include_in_schema=False,
 )
 def get_waterlevels_manual(pointid: str = None, db: Session = Depends(get_db)):
-    q = waterlevels_manual_query(db, pointid)
+    q = waterlevels_manual_query(db, pointid, only_public=False)
+    return paginate(q)
+
+
+@router.get("/continuous", response_model=Page[waterlevel.WaterLevels])
+@router.get(
+    "/continuous/limit-offset",
+    response_model=LimitOffsetPage[waterlevel.WaterLevels],
+    include_in_schema=False,
+)
+def get_waterlevels_continuous(pointid: str = None, db: Session = Depends(get_db)):
+    q = waterlevels_continuous_query(db, pointid, only_public=False)
     return paginate(q)
 
 

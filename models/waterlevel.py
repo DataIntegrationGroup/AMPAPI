@@ -32,6 +32,26 @@ from database import Base
 from models import MeasurementMixin
 
 
+class WaterLevelsContinuous_Pressure(Base, MeasurementMixin):
+    __tablename__ = "WaterLevelsContinuous_Pressure"
+    GlobalID = Column(GUID, primary_key=True)
+    OBJECTID = Column(Integer)
+    WellID = Column(GUID, ForeignKey("WellData.WellID"))
+    DepthToWaterBGS = Column(Numeric)
+
+    DateMeasured = Column(DateTime)
+
+
+class WaterLevelsContinuous_Acoustic(Base, MeasurementMixin):
+    __tablename__ = "WaterLevelsContinuous_Acoustic"
+    GlobalID = Column(GUID, primary_key=True)
+    OBJECTID = Column(Integer)
+    WellID = Column(GUID, ForeignKey("WellData.WellID"))
+    DepthToWaterBGS = Column(Numeric)
+
+    DateMeasured = Column(DateTime)
+
+
 class WaterLevel(Base, MeasurementMixin):
     __tablename__ = "WaterLevels"
     OBJECTID = Column(Integer, primary_key=True)
@@ -44,6 +64,10 @@ class WaterLevel(Base, MeasurementMixin):
     PublicRelease = Column(Boolean)
 
     MeasuringAgency = Column(String(50))
+
+    @property
+    def measurement_time(self):
+        return self.TimeMeasured
 
     @declared_attr
     def DataSource(self):
@@ -65,19 +89,18 @@ class WaterLevel(Base, MeasurementMixin):
     def lu_data_quality(cls):
         return relationship("LU_DataQuality", uselist=False, lazy="joined")
 
-    @property
-    def level_status(self):
-        try:
-            return self.lu_level_status.Meaning
-        except AttributeError:
-            return ""
+    # @property
+    # def level_status(self):
+    #     try:
+    #         return self.lu_level_status.Meaning
+    #     except AttributeError:
+    #         return ""
 
-    @property
-    def data_quality(self):
-        try:
-            return self.lu_data_quality.Meaning
-        except AttributeError:
-            return ""
-
+    # @property
+    # def data_quality(self):
+    #     try:
+    #         return self.lu_data_quality.Meaning
+    #     except AttributeError:
+    #         return ""
 
 # ============= EOF =============================================
