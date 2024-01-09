@@ -32,17 +32,24 @@ from routers.crud import (
 )
 from auth import auth
 from schemas import location
+from routers.location.metadata import nmbgmrd_summary, nmbgmrd_description
 
 router = AuthAPIRouter(prefix="locations")
 
 
-@router.get("", response_model=location.LocationFeatureCollection)
+@router.get("",
+            summary=nmbgmrd_summary.all,
+            description=nmbgmrd_description.all,
+            response_model=location.LocationFeatureCollection)
 def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit, wkt=wkt, only_public=False)
     return locations_feature_collection(locations)
 
 
-@router.get("/equipment", response_model=List[location.Equipment])
+@router.get("/equipment",
+            summary = nmbgmrd_summary.equipment,
+            description = nmbgmrd_description.equipment,
+            response_model=List[location.Equipment])
 def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
     eq = db_get_equipment(db, pointid)
     if eq is None:
@@ -50,7 +57,9 @@ def get_location_equipment(pointid: str, db: Session = Depends(get_db)):
     return eq
 
 
-@router.get("/notes")
+@router.get("/notes",
+            summary = nmbgmrd_summary.notes,
+            description = nmbgmrd_description.notes)
 def get_location_notes(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid, only_public=False)
     if loc is None:
@@ -58,14 +67,20 @@ def get_location_notes(pointid: str, db: Session = Depends(get_db)):
     return loc.LocationNotes or ""
 
 
-@router.get("/projects", response_model=List[location.ProjectLocations])
+@router.get("/projects",
+            summary = nmbgmrd_summary.projects,
+            description = nmbgmrd_description.projects,
+            response_model=List[location.ProjectLocations])
 def get_location_projects(pointid: str, db: Session = Depends(get_db)):
     q = db.query(ProjectLocations)
     q = q.filter(ProjectLocations.PointID == pointid)
     return q.all()
 
 
-@router.get("/owners", response_model=location.OwnersData)
+@router.get("/owners",
+            summary = nmbgmrd_summary.owners,
+            description = nmbgmrd_description.owners,
+            response_model=location.OwnersData)
 def get_location_owners(pointid: str, db: Session = Depends(get_db)):
     q = db.query(Location, Well, OwnersData)
     q = q.join(Well)
@@ -80,7 +95,10 @@ def get_location_owners(pointid: str, db: Session = Depends(get_db)):
         return {}
 
 
-@router.get("/photos", response_model=List[location.WellPhoto])
+@router.get("/photos",
+            summary = nmbgmrd_summary.photos,
+            description = nmbgmrd_description.photos,
+            response_model=List[location.WellPhoto])
 def get_location_photos(pointid: str, db: Session = Depends(get_db)):
     photo_records = db_get_photos(db, pointid)
     return photo_records
