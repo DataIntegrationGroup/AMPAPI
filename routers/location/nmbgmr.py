@@ -37,7 +37,10 @@ from routers.location.metadata import nmbgmrd_summary, nmbgmrd_description
 router = AuthAPIRouter(prefix="locations")
 
 
-@router.get("", response_model=location.LocationFeatureCollection)
+@router.get("",
+            summary=nmbgmrd_summary.all,
+            description=nmbgmrd_description.all,
+            response_model=location.LocationFeatureCollection)
 def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
     locations = db_get_locations(db, limit=limit, wkt=wkt, only_public=False)
     return locations_feature_collection(locations)

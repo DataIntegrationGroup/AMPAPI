@@ -29,7 +29,8 @@ router = APIRouter(prefix="/public/locations", tags=["public/locations"])
 
 @router.get(
     "",
-    description="Get all publicly available locations",
+    summary = public_summary.all,
+    description=public_description.all,
     response_model=location.LocationFeatureCollection,
 )
 def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
@@ -39,8 +40,8 @@ def get_locations(limit: int = None, wkt=None, db: Session = Depends(get_db)):
 
 @router.get(
     "/collaborative_network",
-    summary="Get Collaborative Network Locations",
-    description="Get locations that are part of the collaborative network",
+    summary=public_summary.collaborative_network,
+    description=public_description.collaborative_network,
     response_model=location.LocationFeatureCollection,
 )
 def get_collaborative_network(active: bool = True, db: Session = Depends(get_db)):
@@ -54,17 +55,18 @@ def get_collaborative_network(active: bool = True, db: Session = Depends(get_db)
 
 @router.get(
     "/usgs/sitemetadata",
-    summary="Get USGS Site Metadata",
-    description="Get USGS site metadata from the NWIS service <a "
-    'href="https://waterservices.usgs.gov/rest/Site-Service.html">https://waterservices.usgs.gov'
-    "/rest/Site-Service.html</a>",
+    summary=public_summary.usgs_site_metadata,
+    description=public_description.usgs_site_metadata,
 )
 def get_usgs_sitemetadata(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
     return usgs_util.get_site_metadata(loc)
 
 
-@router.get("/info", response_model=location.Location)
+@router.get("/info",
+            summary = public_summary.info,
+            description=public_description.info,
+            response_model=location.Location)
 def get_location_info(pointid: str, db: Session = Depends(get_db)):
     loc = db_get_location(db, pointid)
     if loc is None:
@@ -75,7 +77,10 @@ def get_location_info(pointid: str, db: Session = Depends(get_db)):
     return loc
 
 
-@router.get("/well", response_model=location.Well)
+@router.get("/well",
+            summary = public_summary.well,
+            description=public_description.well,
+            response_model=location.Well)
 def get_well(pointid: str, db: Session = Depends(get_db)):
     well = db_get_well(db, pointid)
     if well is None:
